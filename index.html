@@ -2,111 +2,413 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Dibendu Singh</title>
+  <title>Dibendu Singh — Structural Biologist</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dibendu Singh — PhD student in structural biology studying molecular motors with cryo-EM.">
 
-  <style>
-    body {
-      font-family: Georgia, serif;
-      max-width: 850px;
-      margin: 60px auto;
-      padding: 0 25px;
-      line-height: 1.6;
-      color: #222;
-    }
+  <!--
+    Fonts:
+    - Inter 300–800  →  headings, nav, UI labels (closest to Apple's SF Pro)
+    - EB Garamond    →  body prose paragraphs
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-    h1 {
-      font-size: 38px;
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      margin-top: 35px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 5px;
-    }
-
-    .subtitle {
-      font-size: 18px;
-      color: #555;
-      margin-bottom: 30px;
-    }
-
-    a {
-      color: #0645ad;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .contact {
-      margin-top: 40px;
-      font-size: 15px;
-      color: #555;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <h1>Dibendu Singh</h1>
+  <!-- ════════════════════════════════════════
+       NAVIGATION
+       Fixed bar — starts transparent over the dark hero.
+       JS adds .scrolled after 80px → frosted white glass.
+  ════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
 
-  <div class="subtitle">
-    Structural Biologist | Cryo-EM | Molecular Motors | Computational Model Fitting
-  </div>
+      <!-- Monogram brand mark (left) -->
+      <a href="#hero" class="nav-brand">DS</a>
 
-  <h2>About</h2>
-  <p>
-    I am a Ph.D. student working on ATP-driven molecular motors involved in DNA
-    translocation and viral genome packaging. My research combines protein
-    biochemistry, cryo-electron microscopy, computational image analysis, and
-    model building to understand how protein machines generate force and move DNA
-    at the molecular scale.
-  </p>
+      <!-- Hamburger toggle — visible only on mobile (<640px) -->
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-  <p>
-    I am especially interested in computational approaches for cryo-EM structure
-    determination, including model fitting into electron density maps, workflow
-    automation, and Python-based analysis.
-  </p>
+      <!-- Nav links (right) -->
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#cv">CV</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
 
-  <h2>Research Interests</h2>
-  <ul>
-    <li>ATP-driven DNA translocases</li>
-    <li>SpoIIIE/FtsK-family molecular motors</li>
-    <li>Viral DNA packaging motors</li>
-    <li>Cryo-EM data processing and model building</li>
-    <li>Computational model fitting into density maps</li>
-    <li>Python-based cryo-EM workflow automation</li>
-  </ul>
+    </div>
+  </nav>
 
-  <h2>Skills</h2>
-  <ul>
-    <li>Protein expression and purification</li>
-    <li>Biochemical assays</li>
-    <li>Cryo-EM sample preparation and data processing</li>
-    <li>Computational image analysis</li>
-    <li>Model building and map interpretation</li>
-    <li>Python, LaTeX, GitHub</li>
-  </ul>
 
-  <h2>CV</h2>
-  <p>
-    My CV will be available here soon.
-  </p>
+  <!-- ════════════════════════════════════════
+       HERO
+       Full-viewport, dark gradient background.
+       Three blurred CSS orbs create a "cryo-EM density map glow" feel.
+       No external images used — pure CSS visual.
+  ════════════════════════════════════════ -->
+  <section id="hero">
 
-  <h2>Contact</h2>
-  <p>
-    Email: <a href="mailto:thedibendu@gmail.com">thedibendu@gmail.com</a><br>
-    GitHub: <a href="https://github.com/thedibendu">github.com/thedibendu</a><br>
-    LinkedIn: Add your LinkedIn link here
-  </p>
+    <!-- Decorative glowing orbs (CSS only, aria-hidden so screen readers skip them) -->
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
 
-  <div class="contact">
-    © 2026 Dibendu Singh
-  </div>
+    <div class="hero-content">
+
+      <!-- Small caps eyebrow label -->
+      <p class="hero-eyebrow">PhD Student &middot; Structural Biology</p>
+
+      <!-- Name — Inter 800, fluid size via clamp() -->
+      <h1 class="hero-name">Dibendu<br>Singh</h1>
+
+      <!-- Keyword strip -->
+      <p class="hero-tags">
+        <span>Cryo-EM</span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span>Molecular Motors</span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span>DNA Translocation</span>
+      </p>
+
+      <!-- One-paragraph bio -->
+      <p class="hero-bio">
+        Studying the ATP-driven machines that move DNA — using cryo-electron
+        microscopy and computational structure determination to reveal how proteins
+        generate force at the molecular scale.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="hero-actions">
+        <a href="#research" class="btn btn-cyan">Explore Research</a>
+        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+      </div>
+
+    </div>
+
+    <!-- Animated scroll-down indicator -->
+    <a href="#about" class="scroll-cue" aria-label="Scroll down">
+      <div class="scroll-chevron"></div>
+    </a>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       ABOUT
+       White section, two-column:
+         left  → bold headline + bio text
+         right → circular photo placeholder (replace with your actual photo)
+  ════════════════════════════════════════ -->
+  <section id="about">
+    <div class="container">
+
+      <p class="eyebrow reveal">About</p>
+
+      <div class="about-grid">
+
+        <!-- Text column -->
+        <div class="about-text">
+          <h2 class="section-heading reveal">Decoding the<br>machines of life.</h2>
+
+          <p class="reveal">
+            I am a Ph.D. student working on ATP-driven molecular motors involved in
+            DNA translocation and viral genome packaging. My research combines protein
+            biochemistry, cryo-electron microscopy, computational image analysis, and
+            model building to understand how protein machines generate force and move
+            DNA at the molecular scale.
+          </p>
+
+          <p class="reveal">
+            I am especially interested in computational approaches for cryo-EM
+            structure determination — including model fitting into electron density
+            maps, workflow automation, and Python-based analysis.
+          </p>
+        </div>
+
+        <!-- Photo column -->
+        <!-- To use a real photo, replace the .avatar div with:
+             <img class="avatar-img" src="photo.jpg" alt="Dibendu Singh"> -->
+        <div class="about-photo reveal">
+          <div class="avatar">
+            <!-- Simple SVG silhouette as a placeholder -->
+            <svg viewBox="0 0 80 90" aria-label="Profile photo placeholder" role="img">
+              <circle cx="40" cy="30" r="20" fill="rgba(6,182,212,0.35)"/>
+              <ellipse cx="40" cy="82" rx="33" ry="21" fill="rgba(6,182,212,0.25)"/>
+            </svg>
+            <p class="avatar-label">Add your photo</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       RESEARCH INTERESTS
+       Light teal surface background.
+       3-column card grid on desktop; 2 on tablet; 1 on mobile.
+       Staggered reveal delay applied via inline --delay custom property.
+  ════════════════════════════════════════ -->
+  <section id="research" class="bg-surface">
+    <div class="container">
+
+      <p class="eyebrow reveal">Research Interests</p>
+      <h2 class="section-heading centered reveal">Where structure<br>meets function.</h2>
+
+      <div class="cards-grid">
+
+        <!-- Each card: gradient top bar, icon, title, description. No fake achievements. -->
+
+        <article class="card reveal" style="--delay: 0s">
+          <div class="card-bar"></div>
+          <span class="card-glyph" aria-hidden="true">⬡</span>
+          <h3>DNA Translocases</h3>
+          <p>ATP-driven motors that actively move double-stranded DNA across membranes and through protein channels.</p>
+        </article>
+
+        <article class="card reveal" style="--delay: 0.07s">
+          <div class="card-bar"></div>
+          <span class="card-glyph" aria-hidden="true">⬡</span>
+          <h3>Molecular Motors</h3>
+          <p>SpoIIIE/FtsK-family proteins coupling ATP hydrolysis to directional DNA transport during cell division.</p>
+        </article>
+
+        <article class="card reveal" style="--delay: 0.14s">
+          <div class="card-bar"></div>
+          <span class="card-glyph" aria-hidden="true">⬡</span>
+          <h3>Viral DNA Packaging</h3>
+          <p>Bacteriophage packaging motors — among the most powerful force-generating machines in biology.</p>
+        </article>
+
+        <article class="card reveal" style="--delay: 0.07s">
+          <div class="card-bar"></div>
+          <span class="card-glyph" aria-hidden="true">⬡</span>
+          <h3>Cryo-Electron Microscopy</h3>
+          <p>Single-particle analysis, data-processing pipelines, and high-resolution structure determination.</p>
+        </article>
+
+        <article class="card reveal" style="--delay: 0.14s">
+          <div class="card-bar"></div>
+          <span class="card-glyph" aria-hidden="true">⬡</span>
+          <h3>Model Building</h3>
+          <p>Fitting atomic models into cryo-EM density maps and interpreting conformational states of complexes.</p>
+        </article>
+
+        <article class="card reveal" style="--delay: 0.21s">
+          <div class="card-bar"></div>
+          <span class="card-glyph" aria-hidden="true">⬡</span>
+          <h3>Computational Workflows</h3>
+          <p>Python-based automation of cryo-EM pipelines, scripting for image analysis, and custom data tools.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       SKILLS
+       White section, two side-by-side groups.
+       Gradient pill tags.
+  ════════════════════════════════════════ -->
+  <section id="skills">
+    <div class="container">
+
+      <p class="eyebrow reveal">Skills</p>
+      <h2 class="section-heading reveal">Tools of the trade.</h2>
+
+      <div class="skills-cols">
+
+        <div class="skill-group reveal">
+          <h3 class="skill-group-label">Experimental</h3>
+          <div class="tags">
+            <span class="tag">Protein expression &amp; purification</span>
+            <span class="tag">Biochemical assays</span>
+            <span class="tag">Cryo-EM sample preparation</span>
+            <span class="tag">ATPase activity assays</span>
+          </div>
+        </div>
+
+        <div class="skill-group reveal" style="--delay: 0.1s">
+          <h3 class="skill-group-label">Computational</h3>
+          <div class="tags">
+            <span class="tag">Cryo-EM image analysis</span>
+            <span class="tag">Model building &amp; map interpretation</span>
+            <span class="tag">Python</span>
+            <span class="tag">RELION / cryoSPARC</span>
+            <span class="tag">PHENIX / COOT</span>
+            <span class="tag">LaTeX</span>
+            <span class="tag">Git &amp; GitHub</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       CV
+       When your CV is ready, uncomment the download button
+       and remove the placeholder paragraph.
+  ════════════════════════════════════════ -->
+  <section id="cv" class="bg-surface">
+    <div class="container container--narrow text-center">
+      <p class="eyebrow reveal">Curriculum Vitae</p>
+      <h2 class="section-heading reveal">My full CV is<br>coming soon.</h2>
+
+      <!--
+        When your CV is ready, replace the paragraph below with:
+        <a href="cv.pdf" class="btn btn-cyan" target="_blank" rel="noopener">Download CV (PDF)</a>
+      -->
+      <p class="muted reveal">A PDF version will be linked here.</p>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       PUBLICATIONS  (commented out — uncomment when you have papers to list)
+
+  <section id="publications">
+    <div class="container">
+      <p class="eyebrow reveal">Publications</p>
+      <h2 class="section-heading reveal">Published Work</h2>
+
+      <div class="pub reveal">
+        <p class="pub-title">Title of paper here.</p>
+        <p class="pub-meta">
+          Author A, <strong>Dibendu Singh</strong>, Author C —
+          <em>Journal Name</em>, 2026.
+        </p>
+      </div>
+    </div>
+  </section>
+  ════════════════════════════════════════ -->
+
+
+  <!-- ════════════════════════════════════════
+       CONTACT
+       Dark section mirrors the hero — same gradient, same orb trick.
+       Update the LinkedIn URL when you have one.
+  ════════════════════════════════════════ -->
+  <section id="contact" class="bg-dark">
+
+    <!-- Orbs (same technique as hero — mirrored positions) -->
+    <div class="orb orb-c1" aria-hidden="true"></div>
+    <div class="orb orb-c2" aria-hidden="true"></div>
+
+    <div class="container container--narrow text-center">
+
+      <p class="eyebrow eyebrow--light reveal">Contact</p>
+      <h2 class="section-heading section-heading--light reveal">Let's talk science.</h2>
+
+      <p class="contact-sub reveal">
+        Open to conversations about research, collaborations, and opportunities.
+      </p>
+
+      <div class="contact-items reveal">
+
+        <a href="mailto:thedibendu@gmail.com" class="contact-item">
+          <span class="contact-label">Email</span>
+          <span class="contact-value">thedibendu@gmail.com</span>
+        </a>
+
+        <a href="https://github.com/thedibendu" target="_blank" rel="noopener" class="contact-item">
+          <span class="contact-label">GitHub</span>
+          <span class="contact-value">github.com/thedibendu</span>
+        </a>
+
+        <!-- Replace with your LinkedIn URL:
+             <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener" class="contact-item"> -->
+        <div class="contact-item contact-item--placeholder">
+          <span class="contact-label">LinkedIn</span>
+          <span class="contact-value muted-light">Add your LinkedIn URL</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       FOOTER — dark, matches contact section
+  ════════════════════════════════════════ -->
+  <footer class="bg-dark">
+    <p>&copy; 2026 Dibendu Singh</p>
+  </footer>
+
+
+  <!-- ════════════════════════════════════════
+       JAVASCRIPT — no frameworks, ~50 lines
+
+       1. Nav transparency: transparent → frosted white on scroll
+       2. Mobile hamburger: toggle .nav-open → hamburger ↔ X animation
+       3. Close mobile menu on link click
+       4. Active nav link highlight (IntersectionObserver)
+       5. Scroll-reveal: add .visible to .reveal elements on enter
+  ════════════════════════════════════════ -->
+  <script>
+    const navbar  = document.getElementById('navbar');
+    const toggle  = document.querySelector('.nav-toggle');
+
+    /* 1. Frosted nav after scrolling past hero */
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    /* 2. Mobile hamburger toggle */
+    toggle.addEventListener('click', () => {
+      const open = navbar.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+
+    /* 3. Close menu when any link is tapped */
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        navbar.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
+
+    /* 4. Active nav link — highlights the link for the section in view */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    const linkObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(a => {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-30% 0px -65% 0px' });
+
+    sections.forEach(s => linkObs.observe(s));
+
+    /* 5. Scroll-reveal: adds .visible to animate opacity + translateY → 0 */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target); /* each element animates only once */
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  </script>
 
 </body>
 </html>
