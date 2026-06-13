@@ -450,6 +450,54 @@ section { padding: 100px 0; }
   background: linear-gradient(160deg, var(--dark) 0%, var(--dark-mid) 100%);
 }
 
+/* ─── Section-to-section colour blends ───────────────────── */
+
+/* Hero (dark) → About (white) */
+#about {
+  position: relative;
+}
+#about::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, #030e1a, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+#about .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* About (white) → Research (dark) */
+#research {
+  background: linear-gradient(to bottom, #ffffff 0%, #040d18 14%, #071828 100%);
+}
+
+/* Research (dark) → Skills (white) */
+#skills {
+  position: relative;
+}
+#skills::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 140px;
+  background: linear-gradient(to bottom, #040d18, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+#skills .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* CV (surface) → Contact (dark) */
+#contact {
+  background: linear-gradient(to bottom, #f0f9ff 0%, #040d18 14%, #071828 100%);
+}
+
 /* Subtle dot-grid overlay — evokes microscope grid / circuit board */
 .section-grid-overlay::before {
   content: '';
