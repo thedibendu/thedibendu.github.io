@@ -450,67 +450,6 @@ section { padding: 100px 0; }
   background: linear-gradient(160deg, var(--dark) 0%, var(--dark-mid) 100%);
 }
 
-/* ─── Section-to-section colour blends ───────────────────── */
-/* Each gradient lives at the BOTTOM of the departing section,
-   inside its padding zone — content is never covered.         */
-
-/* Hero (dark) → About (white) */
-#hero { padding-bottom: 180px; }
-#hero::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, #ffffff);
-  pointer-events: none;
-  z-index: 2;
-}
-.hero-content { z-index: 3; }
-.scroll-cue   { z-index: 3; }
-
-/* About (white) → Research (dark) */
-#about {
-  position: relative;
-  padding-bottom: 180px;
-}
-#about::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, #040d18);
-  pointer-events: none;
-  z-index: 0;
-}
-#about .container { position: relative; z-index: 1; }
-
-/* Research (dark) → Skills (white) */
-#research { padding-bottom: 180px; }
-#research::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, #ffffff);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* CV (surface) → Contact (dark) */
-#cv {
-  position: relative;
-  padding-bottom: 180px;
-}
-#cv::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 180px;
-  background: linear-gradient(to bottom, transparent, #040d18);
-  pointer-events: none;
-  z-index: 0;
-}
-#cv .container { position: relative; z-index: 1; }
 
 /* Subtle dot-grid overlay — evokes microscope grid / circuit board */
 .section-grid-overlay::before {
