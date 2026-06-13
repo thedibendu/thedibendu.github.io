@@ -451,52 +451,66 @@ section { padding: 100px 0; }
 }
 
 /* ─── Section-to-section colour blends ───────────────────── */
+/* Each gradient lives at the BOTTOM of the departing section,
+   inside its padding zone — content is never covered.         */
 
 /* Hero (dark) → About (white) */
-#about {
-  position: relative;
-}
-#about::before {
+#hero { padding-bottom: 180px; }
+#hero::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, #030e1a, transparent);
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, #ffffff);
   pointer-events: none;
-  z-index: 0;
+  z-index: 2;
 }
-#about .container {
-  position: relative;
-  z-index: 1;
-}
+.hero-content { z-index: 3; }
+.scroll-cue   { z-index: 3; }
 
 /* About (white) → Research (dark) */
-#research {
-  background: linear-gradient(to bottom, #ffffff 0%, #040d18 14%, #071828 100%);
-}
-
-/* Research (dark) → Skills (white) */
-#skills {
+#about {
   position: relative;
+  padding-bottom: 180px;
 }
-#skills::before {
+#about::after {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 140px;
-  background: linear-gradient(to bottom, #040d18, transparent);
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, #040d18);
   pointer-events: none;
   z-index: 0;
 }
-#skills .container {
-  position: relative;
-  z-index: 1;
+#about .container { position: relative; z-index: 1; }
+
+/* Research (dark) → Skills (white) */
+#research { padding-bottom: 180px; }
+#research::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, #ffffff);
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* CV (surface) → Contact (dark) */
-#contact {
-  background: linear-gradient(to bottom, #f0f9ff 0%, #040d18 14%, #071828 100%);
+#cv {
+  position: relative;
+  padding-bottom: 180px;
 }
+#cv::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, #040d18);
+  pointer-events: none;
+  z-index: 0;
+}
+#cv .container { position: relative; z-index: 1; }
 
 /* Subtle dot-grid overlay — evokes microscope grid / circuit board */
 .section-grid-overlay::before {
