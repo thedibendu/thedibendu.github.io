@@ -1,16 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════
    style.css — Dibendu Singh · Academic Portfolio
-   Design language: Apple-inspired — bold type, gradient color,
-   generous spacing, smooth scroll-reveal animations.
-
-   Fonts:
-     Inter (300–800)   → headings, nav, UI labels
-     EB Garamond       → body prose
-
-   Color scheme:
-     Dark (hero/contact)  → deep navy gradient + cyan glow orbs
-     Light (about/skills) → white + off-white surface
-     Accent               → cyan #06b6d4
+   Futuristic edition — dark hero palette extended throughout,
+   particle network, glassmorphism, glow animations.
+   Font: DM Sans (300–800)
 ═══════════════════════════════════════════════════════════════ */
 
 
@@ -23,37 +15,35 @@ img { display: block; max-width: 100%; }
 
 /* ─────────────────────────────────────────
    DESIGN TOKENS
-   Change these to re-theme the whole site.
 ───────────────────────────────────────── */
 :root {
-  /* Dark palette — hero & contact backgrounds */
-  --dark:          #040d18;
-  --dark-mid:      #071828;
+  /* Dark palette */
+  --dark:        #040d18;
+  --dark-mid:    #071828;
+  --dark-card:   rgba(6, 182, 212, 0.04);
 
-  /* Cyan accent — the primary brand color */
-  --cyan:          #06b6d4;
-  --cyan-dim:      #0891b2;
-  --cyan-bright:   #22d3ee;
-  --cyan-glow:     rgba(6, 182, 212, 0.28);
-  --cyan-soft:     rgba(6, 182, 212, 0.1);
+  /* Cyan accent */
+  --cyan:        #06b6d4;
+  --cyan-dim:    #0891b2;
+  --cyan-bright: #22d3ee;
+  --cyan-glow:   rgba(6, 182, 212, 0.3);
 
-  /* Light palette — about, skills, CV sections */
-  --bg:            #ffffff;
-  --surface:       #f0f9ff;   /* sky-50: very light teal wash */
-  --border:        #e0f2fe;   /* sky-100 */
+  /* Light palette */
+  --bg:          #ffffff;
+  --surface:     #f0f9ff;
+  --border:      #e0f2fe;
 
   /* Text */
-  --text:          #0f172a;   /* slate-900 — near-black */
-  --text-mid:      #1e3a5f;   /* dark blue-gray */
-  --muted:         #64748b;   /* slate-500 */
+  --text:        #0f172a;
+  --text-mid:    #1e3a5f;
+  --muted:       #64748b;
 
-  /* Typography */
-  --sans:          'DM Sans', system-ui, -apple-system, sans-serif;
-  --serif:         'DM Sans', system-ui, sans-serif;
+  /* Font */
+  --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 
   /* Layout */
-  --max-w:         1100px;
-  --nav-h:         64px;
+  --max-w:  1100px;
+  --nav-h:  64px;
 }
 
 
@@ -62,7 +52,6 @@ img { display: block; max-width: 100%; }
 ───────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
-  /* Offset anchor jumps so fixed nav doesn't cover the target heading */
   scroll-padding-top: calc(var(--nav-h) + 20px);
 }
 
@@ -78,27 +67,73 @@ body {
 
 a { color: var(--cyan-dim); text-decoration: none; transition: color 0.15s; }
 a:hover { color: var(--cyan); }
-
 p { margin-bottom: 1em; }
 p:last-child { margin-bottom: 0; }
 
 
 /* ─────────────────────────────────────────
+   KEYFRAME ANIMATIONS
+───────────────────────────────────────── */
+
+/* Typewriter cursor blink */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Avatar pulsing cyan ring */
+@keyframes avatarGlow {
+  0%, 100% {
+    box-shadow:
+      0 0 0 3px var(--cyan),
+      0 0 0 7px rgba(6,182,212,0.18),
+      0 0 36px rgba(6,182,212,0.25);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px var(--cyan-bright),
+      0 0 0 10px rgba(6,182,212,0.3),
+      0 0 56px rgba(6,182,212,0.45);
+  }
+}
+
+/* Button glow pulse */
+@keyframes btnGlow {
+  0%, 100% { box-shadow: 0 0 12px rgba(6,182,212,0.3); }
+  50%       { box-shadow: 0 0 28px rgba(6,182,212,0.6), 0 0 60px rgba(6,182,212,0.2); }
+}
+
+/* Scroll cue bounce */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(9px); }
+}
+
+/* Subtle hero background shift */
+@keyframes heroShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* Card shimmer sweep on hover */
+@keyframes shimmerSweep {
+  from { transform: translateX(-100%) skewX(-12deg); }
+  to   { transform: translateX(300%) skewX(-12deg); }
+}
+
+
+/* ─────────────────────────────────────────
    NAVIGATION
-   position: fixed so it floats above the dark hero.
-   Default: fully transparent (white text reads on dark).
-   .scrolled state: frosted white glass (set by JS after 80px scroll).
 ───────────────────────────────────────── */
 #navbar {
   position: fixed;
-  inset: 0 0 auto;           /* top:0 left:0 right:0, auto height */
+  inset: 0 0 auto;
   z-index: 300;
   height: var(--nav-h);
   border-bottom: 1px solid transparent;
-  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+  transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 
-/* Inner bar: brand left, links right */
 .nav-inner {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -114,11 +149,14 @@ p:last-child { margin-bottom: 0; }
   font-family: var(--sans);
   font-size: 17px;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.92);
-  transition: color 0.4s;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.92);
+  transition: color 0.3s, text-shadow 0.3s;
 }
-.nav-brand:hover { color: var(--cyan-bright); }
+.nav-brand:hover {
+  color: var(--cyan-bright);
+  text-shadow: 0 0 20px rgba(6,182,212,0.5);
+}
 
 /* Nav links */
 .nav-links {
@@ -133,13 +171,12 @@ p:last-child { margin-bottom: 0; }
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 0.03em;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255,255,255,0.65);
   position: relative;
   padding-bottom: 3px;
   transition: color 0.3s;
 }
 
-/* Slide-in underline on hover / active */
 .nav-links a::after {
   content: '';
   position: absolute;
@@ -148,13 +185,15 @@ p:last-child { margin-bottom: 0; }
   background: var(--cyan-bright);
   border-radius: 2px;
   transition: width 0.22s ease;
+  box-shadow: 0 0 6px var(--cyan);
 }
-.nav-links a:hover,
-.nav-links a.active            { color: #fff; }
-.nav-links a:hover::after,
-.nav-links a.active::after     { width: 100%; }
 
-/* Hamburger — hidden on desktop */
+.nav-links a:hover,
+.nav-links a.active             { color: #fff; }
+.nav-links a:hover::after,
+.nav-links a.active::after      { width: 100%; }
+
+/* Hamburger */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -167,31 +206,26 @@ p:last-child { margin-bottom: 0; }
   display: block;
   width: 22px; height: 2px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255,255,255,0.85);
   transition: transform 0.22s ease, opacity 0.15s ease, background 0.4s;
 }
 
-/* ── Scrolled state: frosted white glass ── */
+/* Scrolled state */
 #navbar.scrolled {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(4, 13, 24, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-bottom-color: rgba(0, 0, 0, 0.07);
-  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.06);
+  border-bottom-color: rgba(6,182,212,0.12);
+  box-shadow: 0 1px 30px rgba(0,0,0,0.4);
 }
-#navbar.scrolled .nav-brand         { color: var(--text); }
-#navbar.scrolled .nav-links a       { color: var(--muted); }
+#navbar.scrolled .nav-brand     { color: rgba(255,255,255,0.92); }
+#navbar.scrolled .nav-links a   { color: rgba(255,255,255,0.6); }
 #navbar.scrolled .nav-links a:hover,
-#navbar.scrolled .nav-links a.active { color: var(--cyan-dim); }
-#navbar.scrolled .nav-links a::after { background: var(--cyan-dim); }
-#navbar.scrolled .nav-toggle span   { background: var(--text); }
+#navbar.scrolled .nav-links a.active { color: var(--cyan-bright); }
 
 
 /* ─────────────────────────────────────────
    HERO SECTION
-   Full viewport height, dark gradient, three CSS glow orbs.
-   The orbs are blurred divs — they suggest the soft globular
-   shapes seen in cryo-EM density maps.
 ───────────────────────────────────────── */
 #hero {
   position: relative;
@@ -200,57 +234,74 @@ p:last-child { margin-bottom: 0; }
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
-  /* Dark navy → slightly lighter teal-navy, angled */
-  background: linear-gradient(145deg, var(--dark) 0%, #071e34 45%, #0a2e4a 100%);
+  /* Animated gradient background */
+  background: linear-gradient(
+    -45deg,
+    #020b16, #040d1e, #051525, #030e1a
+  );
+  background-size: 400% 400%;
+  animation: heroShift 18s ease-in-out infinite;
   padding: calc(var(--nav-h) + 60px) 36px 100px;
 }
 
-/* ── CSS glow orbs ── */
+/* Canvas particle network — fills hero, behind everything */
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+/* Glow orbs — above canvas, below content */
 .orb {
   position: absolute;
   border-radius: 50%;
   filter: blur(90px);
   pointer-events: none;
-  will-change: transform;   /* hint for compositing */
+  z-index: 1;
 }
-/* Large cyan orb — top right */
 .orb-1 {
   width: 560px; height: 560px;
-  background: radial-gradient(circle, rgba(6,182,212,0.32) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(6,182,212,0.28) 0%, transparent 70%);
   top: -140px; right: -120px;
 }
-/* Mid teal orb — bottom left */
 .orb-2 {
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(8,145,178,0.24) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(8,145,178,0.22) 0%, transparent 70%);
   bottom: -80px; left: 4%;
 }
-/* Small bright orb — center right (adds depth) */
 .orb-3 {
   width: 260px; height: 260px;
-  background: radial-gradient(circle, rgba(34,211,238,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(34,211,238,0.16) 0%, transparent 70%);
   top: 42%; right: 22%;
 }
 
-/* ── Hero inner content ── */
+/* Hero content sits above canvas and orbs */
 .hero-content {
-  position: relative;   /* sits above the orbs */
+  position: relative;
+  z-index: 2;
   max-width: 820px;
-  z-index: 1;
 }
 
-/* Small caps label */
+/* Small caps eyebrow with // code comment prefix */
 .hero-eyebrow {
   font-family: var(--sans);
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--cyan);
   margin-bottom: 20px;
 }
+.eyebrow-bracket {
+  opacity: 0.5;
+  margin-right: 8px;
+  font-family: monospace;
+  font-size: 14px;
+}
 
-/* Main name — huge Inter 800, fluid size */
+/* Hero name — large, glowing */
 .hero-name {
   font-family: var(--sans);
   font-size: clamp(56px, 9vw, 104px);
@@ -258,61 +309,67 @@ p:last-child { margin-bottom: 0; }
   letter-spacing: -0.03em;
   line-height: 0.95;
   color: #ffffff;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  /* Subtle cyan glow */
+  text-shadow:
+    0 0 60px rgba(6,182,212,0.12),
+    0 0 120px rgba(6,182,212,0.06);
 }
 
-/* Keyword strip */
+/* Typewriter line */
 .hero-tags {
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 400;
-  color: rgba(255,255,255,0.55);
-  letter-spacing: 0.02em;
+  color: var(--cyan-bright);
   margin-bottom: 32px;
+  min-height: 1.5em;
+  letter-spacing: 0.01em;
 }
-.hero-tags .dot { margin: 0 10px; }
 
-/* Bio paragraph */
+/* Blinking cursor */
+.typed-cursor {
+  display: inline-block;
+  color: var(--cyan);
+  animation: cursorBlink 1s step-end infinite;
+  font-weight: 300;
+  margin-left: 1px;
+}
+
+/* Hero bio */
 .hero-bio {
-  font-family: var(--sans);
   font-size: 17px;
   font-weight: 300;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.78;
+  color: rgba(255,255,255,0.65);
   max-width: 580px;
   margin-bottom: 48px;
 }
 
-/* CTA buttons row */
+/* CTA buttons */
 .hero-actions {
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
 }
 
-/* ── Bouncing scroll cue at bottom of hero ── */
+/* Scroll cue */
 .scroll-cue {
   position: absolute;
   bottom: 36px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   width: 36px; height: 36px;
   animation: scrollBounce 2.2s ease-in-out infinite;
-  opacity: 0.45;
-  z-index: 1;
+  opacity: 0.4;
+  z-index: 2;
 }
 .scroll-chevron {
   width: 14px; height: 14px;
   border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
   transform: rotate(45deg) translateY(-3px);
-}
-@keyframes scrollBounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50%       { transform: translateX(-50%) translateY(9px); }
 }
 
 
@@ -327,42 +384,40 @@ p:last-child { margin-bottom: 0; }
   font-weight: 600;
   letter-spacing: 0.01em;
   padding: 13px 28px;
-  border-radius: 50px;   /* fully rounded — matches Apple pill buttons */
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s;
+  border-radius: 50px;
+  transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
   white-space: nowrap;
   cursor: pointer;
 }
-.btn:hover { transform: translateY(-1px); }
+.btn:hover { transform: translateY(-2px); }
 
-/* Filled cyan button */
+/* Filled cyan — pulsing glow */
 .btn-cyan {
   background: var(--cyan);
   color: #fff;
+  animation: btnGlow 3s ease-in-out infinite;
 }
 .btn-cyan:hover {
   background: var(--cyan-bright);
   color: #fff;
-  box-shadow: 0 8px 28px rgba(6, 182, 212, 0.38);
+  box-shadow: 0 8px 32px rgba(6,182,212,0.5);
 }
 
-/* Ghost / outline button (for dark backgrounds) */
+/* Ghost / outline */
 .btn-ghost {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.88);
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 .btn-ghost:hover {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.15);
   color: #fff;
   border-color: rgba(255,255,255,0.4);
 }
 
 
 /* ─────────────────────────────────────────
-   SCROLL-REVEAL ANIMATION
-   Elements with class .reveal start invisible and shifted down.
-   JS IntersectionObserver adds .visible to trigger the transition.
-   --delay custom property (set inline on each element) staggers cards.
+   SCROLL-REVEAL
 ───────────────────────────────────────── */
 .reveal {
   opacity: 0;
@@ -371,41 +426,49 @@ p:last-child { margin-bottom: 0; }
     opacity  0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s),
     transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) var(--delay, 0s);
 }
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
 
 /* ─────────────────────────────────────────
-   CONTAINER & SECTION LAYOUT
-   Sections are full-bleed (background spans edge to edge).
-   .container constrains content width and adds side padding.
+   LAYOUT UTILITIES
 ───────────────────────────────────────── */
 .container {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 36px;
 }
-.container--narrow {
-  max-width: 700px;
-}
+.container--narrow { max-width: 700px; }
 
-/* Shared section padding */
-section {
-  padding: 100px 0;
-}
+section { padding: 100px 0; }
 
-/* Background utility classes */
+/* Background helpers */
 .bg-surface { background: var(--surface); }
+
+/* Dark background — used for Research and Contact */
 .bg-dark {
+  position: relative;
   background: linear-gradient(160deg, var(--dark) 0%, var(--dark-mid) 100%);
 }
 
-/* Text alignment utility */
+/* Subtle dot-grid overlay — evokes microscope grid / circuit board */
+.section-grid-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(6,182,212,0.12) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+}
+.section-grid-overlay > .container {
+  position: relative;
+  z-index: 1;
+}
+
 .text-center { text-align: center; }
 
-/* Eyebrow label — small caps above section headings */
+/* Eyebrow labels */
 .eyebrow {
   font-family: var(--sans);
   font-size: 11px;
@@ -415,42 +478,30 @@ section {
   color: var(--cyan-dim);
   margin-bottom: 16px;
 }
+.eyebrow--light { color: var(--cyan-bright); }
 
-/* Light eyebrow — for dark sections */
-.eyebrow--light {
-  color: var(--cyan-bright);
-}
-
-/* Section heading — large Inter bold */
+/* Section headings */
 .section-heading {
   font-family: var(--sans);
-  font-size: clamp(32px, 4.5vw, 52px);
+  font-size: clamp(30px, 4.5vw, 52px);
   font-weight: 700;
   letter-spacing: -0.025em;
   line-height: 1.1;
   color: var(--text);
   margin-bottom: 52px;
 }
-.section-heading.centered { text-align: center; }
-
-/* Light heading variant — for dark sections */
-.section-heading--light {
+.section-heading.centered   { text-align: center; }
+.section-heading--light     {
   color: #ffffff;
+  text-shadow: 0 0 40px rgba(6,182,212,0.15);
 }
 
-/* Muted placeholder text */
-.muted {
-  font-family: var(--sans);
-  font-size: 15px;
-  color: var(--muted);
-  font-style: italic;
-}
-.muted-light { color: rgba(255,255,255,0.4); }
+.muted { font-size: 15px; color: var(--muted); font-style: italic; }
+.muted-light { color: rgba(255,255,255,0.35); }
 
 
 /* ─────────────────────────────────────────
    ABOUT SECTION
-   Two-column grid: bio text left, circular photo placeholder right.
 ───────────────────────────────────────── */
 .about-grid {
   display: grid;
@@ -460,7 +511,6 @@ section {
 }
 
 .about-text p {
-  font-family: var(--sans);
   font-size: 17px;
   font-weight: 300;
   line-height: 1.82;
@@ -469,105 +519,96 @@ section {
   margin-bottom: 1.2em;
 }
 
-/* Circular avatar / photo container */
-.avatar {
+.avatar-ring {
   width: 280px;
   height: 280px;
   border-radius: 50%;
-  /* Gradient fill — replace with your photo via the img tag */
-  background: linear-gradient(135deg, #b2ebf2 0%, #80deea 40%, #c7f9fd 100%);
-  border: 2px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  color: var(--cyan-dim);
   flex-shrink: 0;
-  /* Soft drop shadow */
-  box-shadow: 0 20px 60px rgba(6,182,212,0.15), 0 2px 8px rgba(0,0,0,0.06);
 }
 
-/* When you replace the placeholder with a real <img>, it fills the circle */
-.avatar img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-
-.avatar svg { width: 56%; opacity: 0.8; }
-
-.avatar-label {
-  font-family: var(--sans);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--cyan-dim);
-  margin-top: 10px;
-  opacity: 0.7;
-}
-
-/* Real photo — circular like a profile picture */
 .avatar-img {
-  width: 280px;
-  height: 280px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  object-position: center 30%;   /* pulls face into frame */
-  border: 3px solid var(--border);
-  box-shadow: 0 20px 60px rgba(6,182,212,0.15), 0 4px 12px rgba(0,0,0,0.08);
+  object-position: center 30%;
+  display: block;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
 
 
 /* ─────────────────────────────────────────
    RESEARCH CARDS
-   3 × 2 grid on desktop.
-   White cards on the light-teal surface background.
-   A short gradient bar at the top of each card adds color.
-   Hover: lift + glow.
+   Dark section → glassmorphism style.
 ───────────────────────────────────────── */
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 22px;
+  gap: 20px;
 }
 
 .card {
-  background: var(--bg);
-  border: 1px solid var(--border);
+  position: relative;
+  background: rgba(6,182,212,0.04);
+  border: 1px solid rgba(6,182,212,0.14);
   border-radius: 16px;
-  overflow: hidden;       /* clips the gradient bar to the rounded corner */
-  padding: 0;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s, background 0.28s;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 18px 48px rgba(6, 182, 212, 0.13);
-  border-color: rgba(6, 182, 212, 0.35);
+  transform: translateY(-6px);
+  background: rgba(6,182,212,0.08);
+  border-color: rgba(6,182,212,0.45);
+  box-shadow:
+    0 0 30px rgba(6,182,212,0.15),
+    0 20px 50px rgba(0,0,0,0.4);
 }
 
-/* Gradient accent bar across the top of each card */
+/* Shimmer sweep on hover — runs once via animation */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%; height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(6,182,212,0.07),
+    transparent
+  );
+  transform: translateX(-100%) skewX(-12deg);
+  pointer-events: none;
+}
+.card:hover::after {
+  animation: shimmerSweep 0.7s ease forwards;
+}
+
+/* Gradient bar at top of each card */
 .card-bar {
-  height: 3px;
+  height: 2px;
   background: linear-gradient(90deg, var(--cyan-bright), var(--cyan), #0e7490);
+  box-shadow: 0 0 8px rgba(6,182,212,0.4);
 }
 
-/* Card content padding (after the bar) */
 .card-glyph {
   display: block;
-  font-size: 22px;
+  font-size: 20px;
   color: var(--cyan);
-  padding: 24px 24px 0;
-  opacity: 0.65;
+  padding: 22px 22px 0;
+  opacity: 0.7;
+  text-shadow: 0 0 12px rgba(6,182,212,0.5);
 }
 
 .card h3 {
   font-family: var(--sans);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  color: var(--text);
+  color: rgba(255,255,255,0.9);
   letter-spacing: -0.01em;
-  padding: 10px 24px 8px;
+  padding: 10px 22px 8px;
 }
 
 .card p {
@@ -575,8 +616,8 @@ section {
   font-size: 14px;
   font-weight: 300;
   line-height: 1.68;
-  color: var(--muted);
-  padding: 0 24px 24px;
+  color: rgba(255,255,255,0.45);
+  padding: 0 22px 22px;
   margin: 0;
 }
 
@@ -600,99 +641,83 @@ section {
   margin-bottom: 16px;
 }
 
-/* Wrapping row of pill tags */
 .tags {
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
 }
 
-/* Gradient fill pill — more visual interest than a flat color */
+/* Terminal-style tag pills */
 .tag {
   display: inline-block;
   font-family: var(--sans);
   font-size: 13px;
   font-weight: 500;
   color: var(--cyan-dim);
-  background: linear-gradient(135deg, rgba(6,182,212,0.09), rgba(8,145,178,0.14));
-  border: 1px solid rgba(6, 182, 212, 0.22);
-  border-radius: 100px;
-  padding: 6px 16px;
+  background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(8,145,178,0.13));
+  border: 1px solid rgba(6,182,212,0.22);
+  border-radius: 6px;       /* slight rounding — more "tech" than pill */
+  padding: 5px 14px;
   white-space: nowrap;
   line-height: 1.4;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
 .tag:hover {
-  background: rgba(6,182,212,0.16);
-  border-color: rgba(6,182,212,0.4);
+  background: rgba(6,182,212,0.15);
+  border-color: rgba(6,182,212,0.45);
+  box-shadow: 0 0 12px rgba(6,182,212,0.15);
 }
 
 
 /* ─────────────────────────────────────────
-   PUBLICATIONS (hidden by default — see HTML comment)
+   CONTACT SECTION
 ───────────────────────────────────────── */
-.pub {
-  border-left: 3px solid var(--border);
-  padding-left: 20px;
-  margin-bottom: 28px;
-}
-.pub-title  { font-style: italic; margin-bottom: 4px; }
-.pub-meta   { font-family: var(--sans); font-size: 14px; color: var(--muted); margin: 0; }
-
-
-/* ─────────────────────────────────────────
-   CONTACT SECTION (dark)
-───────────────────────────────────────── */
-
-/* Orbs for contact section — mirrored positions vs hero */
 .orb-c1 {
   width: 480px; height: 480px;
-  background: radial-gradient(circle, rgba(6,182,212,0.28) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(6,182,212,0.25) 0%, transparent 70%);
   bottom: -120px; left: -100px;
 }
 .orb-c2 {
   width: 320px; height: 320px;
-  background: radial-gradient(circle, rgba(8,145,178,0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(8,145,178,0.18) 0%, transparent 70%);
   top: -60px; right: 6%;
 }
 
 .contact-sub {
-  font-family: var(--sans);
   font-size: 16px;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255,255,255,0.5);
   max-width: 460px;
   margin: 0 auto 52px;
   line-height: 1.7;
 }
 
-/* Stack of contact rows */
 .contact-items {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-/* Each row — link or div */
 .contact-item {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 20px;
-  padding: 18px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 18px 16px;
+  border-bottom: 1px solid rgba(6,182,212,0.08);
   color: inherit;
-  transition: background 0.15s;
   border-radius: 8px;
-  padding-left: 16px; padding-right: 16px;
+  transition: background 0.2s;
 }
-.contact-item:first-child  { border-top: 1px solid rgba(255,255,255,0.07); }
-.contact-item:hover { background: rgba(255,255,255,0.04); }
+.contact-item:first-child { border-top: 1px solid rgba(6,182,212,0.08); }
+.contact-item:hover {
+  background: rgba(6,182,212,0.05);
+  box-shadow: inset 0 0 20px rgba(6,182,212,0.03);
+}
 
 .contact-label {
-  font-family: var(--sans);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--cyan);
@@ -701,15 +726,13 @@ section {
 }
 
 .contact-value {
-  font-family: var(--sans);
   font-size: 16px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255,255,255,0.82);
   text-align: left;
   min-width: 220px;
 }
 
-/* The un-linked LinkedIn placeholder */
 .contact-item--placeholder { cursor: default; }
 .contact-item--placeholder:hover { background: transparent; }
 
@@ -718,35 +741,25 @@ section {
    FOOTER
 ───────────────────────────────────────── */
 footer {
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid rgba(6,182,212,0.08);
   padding: 28px 36px;
   text-align: center;
-  font-family: var(--sans);
   font-size: 13px;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.2);
 }
 
 
-/* ═══════════════════════════════════════════════════════
-   RESPONSIVE BREAKPOINTS
-   Breakpoint  │ Change
-   ────────────┼────────────────────────────────────────
-   ≤ 900px     │ 3-col cards → 2-col
-   ≤ 720px     │ about grid → stack; 2-col cards → 1-col
-   ≤ 640px     │ hamburger nav; hero name smaller
-   ≤ 480px     │ tight padding; skills single col
-═══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
 
 @media (max-width: 900px) {
-  .cards-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .cards-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 720px) {
   section { padding: 72px 0; }
 
-  /* About: stack vertically, photo centered */
   .about-grid {
     grid-template-columns: 1fr;
     gap: 48px;
@@ -754,29 +767,21 @@ footer {
   .about-photo {
     display: flex;
     justify-content: center;
-    order: -1;   /* photo appears above text on mobile */
+    order: -1;
   }
   .about-text p { max-width: 100%; }
 
-  /* Research: single column */
-  .cards-grid {
-    grid-template-columns: 1fr;
-  }
+  .cards-grid { grid-template-columns: 1fr; }
 
-  /* Skills: stack */
-  .skills-cols {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
+  .skills-cols { grid-template-columns: 1fr; gap: 36px; }
 
   .section-heading { margin-bottom: 36px; }
 }
 
-/* ── Mobile nav ── */
+/* Mobile nav */
 @media (max-width: 640px) {
   .nav-toggle { display: flex; }
 
-  /* Hide links by default; shown when .nav-open is toggled */
   .nav-links {
     display: none;
     flex-direction: column;
@@ -784,19 +789,11 @@ footer {
     position: absolute;
     top: var(--nav-h);
     left: 0; right: 0;
-    padding: 8px 24px 20px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-  }
-
-  /* Transparent nav state: dark panel matches hero */
-  #navbar:not(.scrolled) .nav-links {
     background: rgba(4, 13, 24, 0.97);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-  /* Scrolled nav state: white panel */
-  #navbar.scrolled .nav-links {
-    background: rgba(255,255,255,0.97);
-    border-bottom: 1px solid rgba(0,0,0,0.07);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(6,182,212,0.12);
+    padding: 8px 24px 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
   }
 
   #navbar.nav-open .nav-links { display: flex; }
@@ -806,23 +803,18 @@ footer {
     display: block;
     padding: 13px 0;
     font-size: 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  #navbar.scrolled .nav-links a {
-    border-bottom-color: rgba(0,0,0,0.07);
+    border-bottom: 1px solid rgba(6,182,212,0.07);
+    color: rgba(255,255,255,0.7);
   }
   .nav-links li:last-child a { border-bottom: none; }
 
-  /* Bars → X animation */
+  /* Hamburger → X */
   #navbar.nav-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   #navbar.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   #navbar.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  /* Hero */
   #hero { padding-left: 24px; padding-right: 24px; }
   .hero-actions { flex-direction: column; align-items: flex-start; }
-
-  /* Container */
   .container { padding: 0 24px; }
 }
 

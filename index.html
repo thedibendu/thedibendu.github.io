@@ -6,11 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dibendu Singh — PhD student in structural biology studying molecular motors with cryo-EM.">
 
-  <!--
-    Fonts:
-    - Inter 300–800  →  headings, nav, UI labels (closest to Apple's SF Pro)
-    - EB Garamond    →  body prose paragraphs
-  -->
+  <!-- DM Sans: clean, modern, non-elongated sans-serif -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
@@ -21,21 +17,16 @@
 
   <!-- ════════════════════════════════════════
        NAVIGATION
-       Fixed bar — starts transparent over the dark hero.
-       JS adds .scrolled after 80px → frosted white glass.
+       Fixed. Transparent over hero → frosted white on scroll (.scrolled via JS).
   ════════════════════════════════════════ -->
   <nav id="navbar">
     <div class="nav-inner">
-
-      <!-- Monogram brand mark (left) -->
       <a href="#hero" class="nav-brand">DS</a>
 
-      <!-- Hamburger toggle — visible only on mobile (<640px) -->
       <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
 
-      <!-- Nav links (right) -->
       <ul class="nav-links">
         <li><a href="#about">About</a></li>
         <li><a href="#research">Research</a></li>
@@ -43,49 +34,46 @@
         <li><a href="#cv">CV</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
-
     </div>
   </nav>
 
 
   <!-- ════════════════════════════════════════
        HERO
-       Full-viewport, dark gradient background.
-       Three blurred CSS orbs create a "cryo-EM density map glow" feel.
-       No external images used — pure CSS visual.
+       Dark gradient. Canvas particle network sits behind content.
+       Typewriter cycles through research keywords.
   ════════════════════════════════════════ -->
   <section id="hero">
 
-    <!-- Decorative glowing orbs (CSS only, aria-hidden so screen readers skip them) -->
+    <!-- Particle network (JS canvas — see script at bottom) -->
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+    <!-- Soft glow orbs layered above the canvas -->
     <div class="orb orb-1" aria-hidden="true"></div>
     <div class="orb orb-2" aria-hidden="true"></div>
     <div class="orb orb-3" aria-hidden="true"></div>
 
     <div class="hero-content">
 
-      <!-- Small caps eyebrow label -->
-      <p class="hero-eyebrow">PhD Student &middot; Structural Biology</p>
-
-      <!-- Name — Inter 800, fluid size via clamp() -->
-      <h1 class="hero-name">Dibendu<br>Singh</h1>
-
-      <!-- Keyword strip -->
-      <p class="hero-tags">
-        <span>Cryo-EM</span>
-        <span class="dot" aria-hidden="true">·</span>
-        <span>Molecular Motors</span>
-        <span class="dot" aria-hidden="true">·</span>
-        <span>DNA Translocation</span>
+      <p class="hero-eyebrow">
+        <span class="eyebrow-bracket" aria-hidden="true">//</span>
+        PhD Student &middot; Structural Biology
       </p>
 
-      <!-- One-paragraph bio -->
+      <!-- Name with subtle glow -->
+      <h1 class="hero-name">Dibendu<br>Singh</h1>
+
+      <!-- Typewriter line — JS fills .typed-text and animates .typed-cursor -->
+      <p class="hero-tags" aria-label="Research keywords">
+        <span class="typed-text"></span><span class="typed-cursor" aria-hidden="true">|</span>
+      </p>
+
       <p class="hero-bio">
         Studying the ATP-driven machines that move DNA — using cryo-electron
         microscopy and computational structure determination to reveal how proteins
         generate force at the molecular scale.
       </p>
 
-      <!-- CTA buttons -->
       <div class="hero-actions">
         <a href="#research" class="btn btn-cyan">Explore Research</a>
         <a href="#contact" class="btn btn-ghost">Get in Touch</a>
@@ -93,7 +81,6 @@
 
     </div>
 
-    <!-- Animated scroll-down indicator -->
     <a href="#about" class="scroll-cue" aria-label="Scroll down">
       <div class="scroll-chevron"></div>
     </a>
@@ -102,19 +89,15 @@
 
 
   <!-- ════════════════════════════════════════
-       ABOUT
-       White section, two-column:
-         left  → bold headline + bio text
-         right → circular photo placeholder (replace with your actual photo)
+       ABOUT — light section, two-column
   ════════════════════════════════════════ -->
   <section id="about">
     <div class="container">
 
-      <p class="eyebrow reveal">About</p>
+      <p class="eyebrow reveal">// About</p>
 
       <div class="about-grid">
 
-        <!-- Text column -->
         <div class="about-text">
           <h2 class="section-heading reveal">Decoding the<br>machines of life.</h2>
 
@@ -133,9 +116,11 @@
           </p>
         </div>
 
-        <!-- Photo column -->
+        <!-- Replace with your actual photo by swapping photo.jpg -->
         <div class="about-photo reveal">
-          <img class="avatar-img" src="photo.jpg" alt="Dibendu Singh">
+          <div class="avatar-ring">
+            <img class="avatar-img" src="photo.jpg" alt="Dibendu Singh">
+          </div>
         </div>
 
       </div>
@@ -144,57 +129,55 @@
 
 
   <!-- ════════════════════════════════════════
-       RESEARCH INTERESTS
-       Light teal surface background.
-       3-column card grid on desktop; 2 on tablet; 1 on mobile.
-       Staggered reveal delay applied via inline --delay custom property.
+       RESEARCH — dark section, glassmorphism cards
+       Extends the hero color palette into a content section.
   ════════════════════════════════════════ -->
-  <section id="research" class="bg-surface">
+  <section id="research" class="bg-dark section-grid-overlay">
     <div class="container">
 
-      <p class="eyebrow reveal">Research Interests</p>
-      <h2 class="section-heading centered reveal">Where structure<br>meets function.</h2>
+      <p class="eyebrow eyebrow--light reveal">// Research Interests</p>
+      <h2 class="section-heading section-heading--light centered reveal">
+        Where structure<br>meets function.
+      </h2>
 
       <div class="cards-grid">
 
-        <!-- Each card: gradient top bar, icon, title, description. No fake achievements. -->
-
-        <article class="card reveal" style="--delay: 0s">
+        <article class="card reveal" style="--delay:0s">
           <div class="card-bar"></div>
           <span class="card-glyph" aria-hidden="true">⬡</span>
           <h3>DNA Translocases</h3>
           <p>ATP-driven motors that actively move double-stranded DNA across membranes and through protein channels.</p>
         </article>
 
-        <article class="card reveal" style="--delay: 0.07s">
+        <article class="card reveal" style="--delay:0.07s">
           <div class="card-bar"></div>
           <span class="card-glyph" aria-hidden="true">⬡</span>
           <h3>Molecular Motors</h3>
           <p>SpoIIIE/FtsK-family proteins coupling ATP hydrolysis to directional DNA transport during cell division.</p>
         </article>
 
-        <article class="card reveal" style="--delay: 0.14s">
+        <article class="card reveal" style="--delay:0.14s">
           <div class="card-bar"></div>
           <span class="card-glyph" aria-hidden="true">⬡</span>
           <h3>Viral DNA Packaging</h3>
           <p>Bacteriophage packaging motors — among the most powerful force-generating machines in biology.</p>
         </article>
 
-        <article class="card reveal" style="--delay: 0.07s">
+        <article class="card reveal" style="--delay:0.07s">
           <div class="card-bar"></div>
           <span class="card-glyph" aria-hidden="true">⬡</span>
           <h3>Cryo-Electron Microscopy</h3>
           <p>Single-particle analysis, data-processing pipelines, and high-resolution structure determination.</p>
         </article>
 
-        <article class="card reveal" style="--delay: 0.14s">
+        <article class="card reveal" style="--delay:0.14s">
           <div class="card-bar"></div>
           <span class="card-glyph" aria-hidden="true">⬡</span>
           <h3>Model Building</h3>
           <p>Fitting atomic models into cryo-EM density maps and interpreting conformational states of complexes.</p>
         </article>
 
-        <article class="card reveal" style="--delay: 0.21s">
+        <article class="card reveal" style="--delay:0.21s">
           <div class="card-bar"></div>
           <span class="card-glyph" aria-hidden="true">⬡</span>
           <h3>Computational Workflows</h3>
@@ -207,14 +190,12 @@
 
 
   <!-- ════════════════════════════════════════
-       SKILLS
-       White section, two side-by-side groups.
-       Gradient pill tags.
+       SKILLS — light section
   ════════════════════════════════════════ -->
   <section id="skills">
     <div class="container">
 
-      <p class="eyebrow reveal">Skills</p>
+      <p class="eyebrow reveal">// Skills</p>
       <h2 class="section-heading reveal">Tools of the trade.</h2>
 
       <div class="skills-cols">
@@ -229,7 +210,7 @@
           </div>
         </div>
 
-        <div class="skill-group reveal" style="--delay: 0.1s">
+        <div class="skill-group reveal" style="--delay:0.1s">
           <h3 class="skill-group-label">Computational</h3>
           <div class="tags">
             <span class="tag">Cryo-EM image analysis</span>
@@ -249,53 +230,27 @@
 
   <!-- ════════════════════════════════════════
        CV
-       When your CV is ready, uncomment the download button
-       and remove the placeholder paragraph.
   ════════════════════════════════════════ -->
   <section id="cv" class="bg-surface">
     <div class="container container--narrow text-center">
-      <p class="eyebrow reveal">Curriculum Vitae</p>
-      <h2 class="section-heading reveal">Curriculum Vitae</h2>
-
+      <p class="eyebrow reveal">// Curriculum Vitae</p>
+      <h2 class="section-heading reveal">Download my CV.</h2>
       <a href="cv_claude.pdf" class="btn btn-cyan reveal" target="_blank" rel="noopener">Download CV (PDF)</a>
     </div>
   </section>
 
 
   <!-- ════════════════════════════════════════
-       PUBLICATIONS  (commented out — uncomment when you have papers to list)
-
-  <section id="publications">
-    <div class="container">
-      <p class="eyebrow reveal">Publications</p>
-      <h2 class="section-heading reveal">Published Work</h2>
-
-      <div class="pub reveal">
-        <p class="pub-title">Title of paper here.</p>
-        <p class="pub-meta">
-          Author A, <strong>Dibendu Singh</strong>, Author C —
-          <em>Journal Name</em>, 2026.
-        </p>
-      </div>
-    </div>
-  </section>
+       CONTACT — dark section with grid overlay
   ════════════════════════════════════════ -->
+  <section id="contact" class="bg-dark section-grid-overlay">
 
-
-  <!-- ════════════════════════════════════════
-       CONTACT
-       Dark section mirrors the hero — same gradient, same orb trick.
-       Update the LinkedIn URL when you have one.
-  ════════════════════════════════════════ -->
-  <section id="contact" class="bg-dark">
-
-    <!-- Orbs (same technique as hero — mirrored positions) -->
     <div class="orb orb-c1" aria-hidden="true"></div>
     <div class="orb orb-c2" aria-hidden="true"></div>
 
     <div class="container container--narrow text-center">
 
-      <p class="eyebrow eyebrow--light reveal">Contact</p>
+      <p class="eyebrow eyebrow--light reveal">// Contact</p>
       <h2 class="section-heading section-heading--light reveal">Let's talk science.</h2>
 
       <p class="contact-sub reveal">
@@ -325,7 +280,7 @@
 
 
   <!-- ════════════════════════════════════════
-       FOOTER — dark, matches contact section
+       FOOTER
   ════════════════════════════════════════ -->
   <footer class="bg-dark">
     <p>&copy; 2026 Dibendu Singh</p>
@@ -333,31 +288,30 @@
 
 
   <!-- ════════════════════════════════════════
-       JAVASCRIPT — no frameworks, ~50 lines
+       JAVASCRIPT
 
-       1. Nav transparency: transparent → frosted white on scroll
-       2. Mobile hamburger: toggle .nav-open → hamburger ↔ X animation
-       3. Close mobile menu on link click
-       4. Active nav link highlight (IntersectionObserver)
-       5. Scroll-reveal: add .visible to .reveal elements on enter
+       1. Nav: transparent → frosted on scroll
+       2. Mobile hamburger
+       3. Active nav link (IntersectionObserver)
+       4. Scroll-reveal (.reveal → .visible)
+       5. Hero particle network (canvas)
+       6. Typewriter effect on hero keywords
   ════════════════════════════════════════ -->
   <script>
-    const navbar  = document.getElementById('navbar');
-    const toggle  = document.querySelector('.nav-toggle');
+    /* ── 1. Nav style on scroll ── */
+    const navbar = document.getElementById('navbar');
+    const toggle = document.querySelector('.nav-toggle');
 
-    /* 1. Frosted nav after scrolling past hero */
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 80);
     }, { passive: true });
 
-    /* 2. Mobile hamburger toggle */
+    /* ── 2. Mobile hamburger ── */
     toggle.addEventListener('click', () => {
       const open = navbar.classList.toggle('nav-open');
       toggle.setAttribute('aria-expanded', String(open));
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     });
-
-    /* 3. Close menu when any link is tapped */
     document.querySelectorAll('.nav-links a').forEach(a => {
       a.addEventListener('click', () => {
         navbar.classList.remove('nav-open');
@@ -366,33 +320,130 @@
       });
     });
 
-    /* 4. Active nav link — highlights the link for the section in view */
+    /* ── 3. Active nav link ── */
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('.nav-links a');
-
-    const linkObs = new IntersectionObserver(entries => {
+    new IntersectionObserver(entries => {
       entries.forEach(e => {
-        if (e.isIntersecting) {
-          navLinks.forEach(a => {
-            a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
-          });
-        }
+        if (e.isIntersecting)
+          navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
       });
-    }, { rootMargin: '-30% 0px -65% 0px' });
+    }, { rootMargin: '-30% 0px -65% 0px' })
+    ; sections.forEach(s => {
+      new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting)
+            navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+        });
+      }, { rootMargin: '-30% 0px -65% 0px' }).observe(s);
+    });
 
-    sections.forEach(s => linkObs.observe(s));
-
-    /* 5. Scroll-reveal: adds .visible to animate opacity + translateY → 0 */
+    /* ── 4. Scroll-reveal ── */
     const revealObs = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.classList.add('visible');
-          revealObs.unobserve(e.target); /* each element animates only once */
+          revealObs.unobserve(e.target);
         }
       });
     }, { threshold: 0.1 });
-
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+    /* ── 5. Hero particle network ── */
+    (function initParticles() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      /* Create particles */
+      const PARTICLE_COUNT = 55;
+      const CONNECTION_DIST = 110;
+      const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+        x:  Math.random() * canvas.width,
+        y:  Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r:  Math.random() * 1.5 + 0.8
+      }));
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        /* Draw connection lines */
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx   = particles[i].x - particles[j].x;
+            const dy   = particles[i].y - particles[j].y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < CONNECTION_DIST) {
+              ctx.strokeStyle = `rgba(6,182,212,${0.18 * (1 - dist / CONNECTION_DIST)})`;
+              ctx.lineWidth   = 0.6;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        /* Draw dots and move */
+        particles.forEach(p => {
+          ctx.fillStyle = 'rgba(6,182,212,0.55)';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height)  p.vy *= -1;
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+
+    /* ── 6. Typewriter effect ── */
+    (function initTypewriter() {
+      const el     = document.querySelector('.typed-text');
+      const cursor = document.querySelector('.typed-cursor');
+      if (!el) return;
+
+      const words = ['Cryo-EM', 'Molecular Motors', 'DNA Translocation', 'Structural Biology'];
+      let wi = 0, ci = 0, deleting = false;
+
+      function tick() {
+        const word = words[wi];
+        el.textContent = word.substring(0, ci);
+
+        if (!deleting && ci === word.length) {
+          /* Pause at full word, then start deleting */
+          setTimeout(() => { deleting = true; tick(); }, 1800);
+          return;
+        }
+        if (deleting && ci === 0) {
+          /* Move to next word */
+          deleting = false;
+          wi = (wi + 1) % words.length;
+          setTimeout(tick, 400);
+          return;
+        }
+
+        deleting ? ci-- : ci++;
+        setTimeout(tick, deleting ? 45 : 85);
+      }
+
+      tick();
+    })();
   </script>
 
 </body>
