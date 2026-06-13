@@ -48,8 +48,8 @@ img { display: block; max-width: 100%; }
   --muted:         #64748b;   /* slate-500 */
 
   /* Typography */
-  --sans:          'Inter', system-ui, -apple-system, sans-serif;
-  --serif:         'EB Garamond', Georgia, serif;
+  --sans:          'DM Sans', system-ui, -apple-system, sans-serif;
+  --serif:         'DM Sans', system-ui, sans-serif;
 
   /* Layout */
   --max-w:         1100px;
@@ -67,8 +67,9 @@ html {
 }
 
 body {
-  font-family: var(--serif);
-  font-size: 18px;
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 300;
   line-height: 1.8;
   color: var(--text);
   background: var(--bg);
@@ -459,8 +460,9 @@ section {
 }
 
 .about-text p {
-  font-family: var(--serif);
-  font-size: 18px;
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 300;
   line-height: 1.82;
   color: var(--text-mid);
   max-width: 580px;
@@ -567,8 +569,9 @@ section {
 }
 
 .card p {
-  font-family: var(--serif);
-  font-size: 16px;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
   line-height: 1.68;
   color: var(--muted);
   padding: 0 24px 24px;
