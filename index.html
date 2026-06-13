@@ -63,11 +63,6 @@
       <!-- Name with subtle glow -->
       <h1 class="hero-name">Dibendu<br>Singh</h1>
 
-      <!-- Typewriter line — JS fills .typed-text and animates .typed-cursor -->
-      <p class="hero-tags" aria-label="Research keywords">
-        <span class="typed-text"></span><span class="typed-cursor" aria-hidden="true">|</span>
-      </p>
-
       <p class="hero-bio">
         Studying the ATP-driven machines that move DNA — using cryo-electron
         microscopy and computational structure determination to reveal how proteins
@@ -363,7 +358,7 @@
       window.addEventListener('resize', resize, { passive: true });
 
       /* Create particles */
-      const PARTICLE_COUNT = 55;
+      const PARTICLE_COUNT = 25;
       const CONNECTION_DIST = 110;
       const particles = Array.from({ length: PARTICLE_COUNT }, () => ({
         x:  Math.random() * canvas.width,
@@ -412,38 +407,6 @@
       draw();
     })();
 
-    /* ── 6. Typewriter effect ── */
-    (function initTypewriter() {
-      const el     = document.querySelector('.typed-text');
-      const cursor = document.querySelector('.typed-cursor');
-      if (!el) return;
-
-      const words = ['Cryo-EM', 'Molecular Motors', 'DNA Translocation', 'Structural Biology'];
-      let wi = 0, ci = 0, deleting = false;
-
-      function tick() {
-        const word = words[wi];
-        el.textContent = word.substring(0, ci);
-
-        if (!deleting && ci === word.length) {
-          /* Pause at full word, then start deleting */
-          setTimeout(() => { deleting = true; tick(); }, 1800);
-          return;
-        }
-        if (deleting && ci === 0) {
-          /* Move to next word */
-          deleting = false;
-          wi = (wi + 1) % words.length;
-          setTimeout(tick, 400);
-          return;
-        }
-
-        deleting ? ci-- : ci++;
-        setTimeout(tick, deleting ? 45 : 85);
-      }
-
-      tick();
-    })();
   </script>
 
 </body>
