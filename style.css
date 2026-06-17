@@ -11,7 +11,8 @@
 ───────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 img { display: block; max-width: 100%; }
-html, body { overflow-x: hidden; }
+html, body { overflow-x: hidden; scrollbar-width: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
 
 
 /* ─────────────────────────────────────────
@@ -875,21 +876,6 @@ footer {
   #back-top { bottom: 20px; right: 20px; width: 40px; height: 40px; font-size: 16px; }
 }
 
-
-/* ─────────────────────────────────────────
-   SCROLL PROGRESS BAR
-───────────────────────────────────────── */
-#scroll-bar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--cyan), var(--cyan-bright));
-  transform-origin: left;
-  transform: scaleX(0);
-  z-index: 400;
-  will-change: transform;
-  pointer-events: none;
-}
 
 
 /* ─────────────────────────────────────────
