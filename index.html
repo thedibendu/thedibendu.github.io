@@ -62,7 +62,7 @@
       <!-- Name with subtle glow -->
       <h1 class="hero-name">Dibendu<br>Singh</h1>
 
-      <p class="hero-tags"><span id="typed-text"></span><span class="typed-cursor" aria-hidden="true">|</span></p>
+      <p class="hero-tags">Cryo-EM &nbsp;·&nbsp; Structural Biology &nbsp;·&nbsp; Molecular Motors &nbsp;·&nbsp; DNA Translocation</p>
 
       <p class="hero-bio">
         Studying the ATP-driven machines that move DNA — using cryo-electron
@@ -424,26 +424,6 @@
     })();
 
 
-    /* ── 6. Typewriter effect ── */
-    (function () {
-      const el = document.getElementById('typed-text');
-      if (!el) return;
-      const words = ['Cryo-EM', 'Structural Biology', 'Molecular Motors', 'DNA Translocation', 'Model Building'];
-      let wi = 0, ci = 0, del = false;
-
-      function tick() {
-        const w = words[wi];
-        if (!del) {
-          el.textContent = w.slice(0, ++ci);
-          if (ci === w.length) { del = true; setTimeout(tick, 2000); return; }
-        } else {
-          el.textContent = w.slice(0, --ci);
-          if (ci === 0) { del = false; wi = (wi + 1) % words.length; }
-        }
-        setTimeout(tick, del ? 50 : 95);
-      }
-      tick();
-    })();
 
 
   </script>
