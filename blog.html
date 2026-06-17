@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Journal — Dibendu Singh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dibendu Singh's journal — lab life, field trips, experiments, and everything exciting.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="blog.css">
+</head>
+
+<body>
+
+  <!-- ════════════════════════════════════════
+       NAVIGATION
+       Same structure as main page, all links point back to index.html
+  ════════════════════════════════════════ -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">DS</a>
+
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#research">Research</a></li>
+        <li><a href="index.html#skills">Skills</a></li>
+        <li><a href="index.html#cv">CV</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="blog.html" class="active">Journal</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- ════════════════════════════════════════
+       BLOG HERO — mini dark header
+  ════════════════════════════════════════ -->
+  <section id="blog-hero">
+
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <div class="blog-hero-content">
+      <p class="hero-eyebrow" style="text-align:center; display:block;">
+        <span class="eyebrow-bracket" aria-hidden="true">//</span>
+        Journal
+      </p>
+      <h1 class="blog-hero-title">Lab Life &amp; Adventures.</h1>
+      <p class="blog-hero-sub">
+        Moments from the bench, field trips with the lab,
+        experiments, and everything that makes science worth doing.
+      </p>
+    </div>
+
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       POSTS FEED
+  ════════════════════════════════════════ -->
+  <section id="posts" class="bg-dark section-grid-overlay">
+    <div class="container">
+
+      <!-- Filter bar -->
+      <div class="filter-bar" role="group" aria-label="Filter posts by category">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="lab">Lab Life</button>
+        <button class="filter-btn" data-filter="trip">Adventures</button>
+        <button class="filter-btn" data-filter="experiment">Experiments</button>
+        <button class="filter-btn" data-filter="life">Daily Life</button>
+      </div>
+
+      <!-- Posts grid — filled by JS from posts.js -->
+      <div class="posts-grid" id="posts-grid"></div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <span class="empty-state-glyph" aria-hidden="true">⬡</span>
+        <p>Nothing here yet in this category. Check back soon!</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       LIGHTBOX MODAL
+  ════════════════════════════════════════ -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Post detail">
+    <div class="lb-backdrop" id="lb-backdrop"></div>
+    <div class="lb-inner" id="lb-inner">
+      <div class="lb-media" id="lb-media"></div>
+      <div class="lb-panel" id="lb-panel"></div>
+    </div>
+    <button class="lb-close" id="lb-close" aria-label="Close">&times;</button>
+  </div>
+
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="bg-dark">
+    <p>&copy; 2026 Dibendu Singh &nbsp;&middot;&nbsp;
+      <a href="index.html" style="color:rgba(255,255,255,0.32);">Back to main site</a>
+    </p>
+  </footer>
+
+
+  <!-- Back-to-top -->
+  <button id="back-top" aria-label="Back to top">&#8593;</button>
+
+
+  <!-- ════════════════════════════════════════
+       DATA  —  posts.js must load before the script below
+  ════════════════════════════════════════ -->
+  <script src="posts.js"></script>
+
+
+  <!-- ════════════════════════════════════════
+       JAVASCRIPT
+
+       1. Nav scroll behaviour + hamburger
+       2. Post rendering (reads POSTS from posts.js)
+       3. Filter logic
+       4. Scroll-reveal
+       5. Lightbox with image carousel
+  ════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── Tiny helpers ── */
+    const $ = id => document.getElementById(id);
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T00:00:00');
+      return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    const CAT = {
+      lab:        { label: 'Lab Life',    glyph: '⬡', badge: 'badge-lab' },
+      trip:       { label: 'Adventures',  glyph: '◈', badge: 'badge-trip' },
+      experiment: { label: 'Experiments', glyph: '⬟', badge: 'badge-experiment' },
+      life:       { label: 'Daily Life',  glyph: '○', badge: 'badge-life' },
+    };
+
+    function cat(key) {
+      return CAT[key] || { label: key, glyph: '⬡', badge: 'badge-lab' };
+    }
+
+    /* Sort posts newest-first */
+    const sorted = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
+
+
+    /* ══ 1. NAV ══ */
+    const navbar  = $('navbar');
+    const toggle  = document.querySelector('.nav-toggle');
+    const backTop = $('back-top');
+
+    window.addEventListener('scroll', () => {
+      const sy = window.scrollY;
+      navbar.classList.toggle('scrolled', sy > 80);
+      backTop.classList.toggle('visible', sy > 400);
+    }, { passive: true });
+
+    backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    toggle.addEventListener('click', () => {
+      const open = navbar.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(a => {
+      a.addEventListener('click', () => {
+        navbar.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
+
+
+    /* ══ 2. SCROLL-REVEAL ══ */
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+
+    /* ══ 3. RENDER POSTS ══ */
+    function renderPosts(filter) {
+      const grid   = $('posts-grid');
+      const empty  = $('empty-state');
+      const posts  = filter === 'all' ? sorted : sorted.filter(p => p.category === filter);
+
+      if (posts.length === 0) {
+        grid.innerHTML   = '';
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+
+      grid.innerHTML = posts.map(post => {
+        const m         = cat(post.category);
+        const hasImages = post.images && post.images.length > 0;
+        const imgCount  = hasImages ? post.images.length : 0;
+        const tagsHTML  = (post.tags || []).map(t => `<span class="post-tag">#${t}</span>`).join('');
+
+        const mediaHTML = hasImages
+          ? `<div class="post-img-wrap">
+               <img src="${post.images[0]}" alt="${post.title}" loading="lazy">
+               <div class="post-img-overlay">
+                 <span class="post-expand-icon" aria-hidden="true">⊕</span>
+               </div>
+               <span class="post-category-badge ${m.badge}">${m.label}</span>
+               ${imgCount > 1 ? `<span class="post-img-count">1&thinsp;/&thinsp;${imgCount}</span>` : ''}
+             </div>`
+          : `<div class="post-placeholder">
+               <span class="post-placeholder-glyph" aria-hidden="true">${m.glyph}</span>
+               <span class="post-placeholder-label">${m.label}</span>
+             </div>`;
+
+        return `
+          <article class="post-card reveal"
+                   data-id="${post.id}"
+                   tabindex="0"
+                   role="button"
+                   aria-label="Open: ${post.title}">
+            <div class="post-card-bar"></div>
+            ${mediaHTML}
+            <div class="post-meta">
+              <span class="post-date">${formatDate(post.date)}</span>
+              <p class="post-title">${post.title}</p>
+              <p class="post-caption-preview">${post.caption}</p>
+              ${tagsHTML ? `<div class="post-tags-row">${tagsHTML}</div>` : ''}
+            </div>
+          </article>`;
+      }).join('');
+
+      /* Attach reveal observer to new cards */
+      grid.querySelectorAll('.post-card.reveal').forEach(el => revealObs.observe(el));
+
+      /* Attach click + keyboard handlers */
+      grid.querySelectorAll('.post-card').forEach(card => {
+        const open = () => openLightbox(Number(card.dataset.id));
+        card.addEventListener('click', open);
+        card.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
+        });
+      });
+    }
+
+
+    /* ══ 4. FILTER ══ */
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderPosts(btn.dataset.filter);
+      });
+    });
+
+
+    /* ══ 5. LIGHTBOX ══ */
+    const lightbox   = $('lightbox');
+    const lbInner    = $('lb-inner');
+    const lbMedia    = $('lb-media');
+    const lbPanel    = $('lb-panel');
+    const lbClose    = $('lb-close');
+    const lbBackdrop = $('lb-backdrop');
+
+    let currentPost    = null;
+    let currentImgIdx  = 0;
+
+    function openLightbox(postId) {
+      currentPost   = sorted.find(p => p.id === postId);
+      if (!currentPost) return;
+      currentImgIdx = 0;
+      renderLightbox();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      lbClose.focus();
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+      currentPost = null;
+    }
+
+    function renderLightbox() {
+      const post      = currentPost;
+      const m         = cat(post.category);
+      const hasImages = post.images && post.images.length > 0;
+      const imgCount  = hasImages ? post.images.length : 0;
+      const tagsHTML  = (post.tags || []).map(t => `<span class="lb-tag">#${t}</span>`).join('');
+
+      /* Media panel */
+      if (hasImages) {
+        lbInner.classList.remove('no-image');
+        lbMedia.innerHTML = `
+          <img src="${post.images[currentImgIdx]}" alt="${post.title}" id="lb-img">
+          ${imgCount > 1 ? `
+            <button class="lb-carousel-btn prev" id="lb-prev" aria-label="Previous image"
+              ${currentImgIdx === 0 ? 'disabled' : ''}>&#8249;</button>
+            <button class="lb-carousel-btn next" id="lb-next" aria-label="Next image"
+              ${currentImgIdx === imgCount - 1 ? 'disabled' : ''}>&#8250;</button>
+            <span class="lb-img-counter">${currentImgIdx + 1}&thinsp;/&thinsp;${imgCount}</span>
+          ` : ''}
+        `;
+        if (imgCount > 1) {
+          $('lb-prev').addEventListener('click', e => { e.stopPropagation(); navigate(-1); });
+          $('lb-next').addEventListener('click', e => { e.stopPropagation(); navigate(1); });
+        }
+      } else {
+        lbInner.classList.add('no-image');
+        lbMedia.innerHTML = `
+          <div class="lb-placeholder-big">
+            <span class="glyph" aria-hidden="true">${m.glyph}</span>
+            <span class="label">${m.label}</span>
+          </div>
+        `;
+      }
+
+      /* Details panel */
+      lbPanel.innerHTML = `
+        <span class="lb-cat-badge ${m.badge}">${m.label}</span>
+        <p class="lb-date">${formatDate(post.date)}</p>
+        <h2 class="lb-title">${post.title}</h2>
+        <p class="lb-caption">${post.caption.replace(/\n/g, '<br>')}</p>
+        ${tagsHTML ? `<div class="lb-tags-row">${tagsHTML}</div>` : ''}
+      `;
+    }
+
+    function navigate(dir) {
+      const count = currentPost.images.length;
+      currentImgIdx = Math.max(0, Math.min(count - 1, currentImgIdx + dir));
+      renderLightbox();
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbBackdrop.addEventListener('click', closeLightbox);
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (currentPost?.images?.length > 1) {
+        if (e.key === 'ArrowLeft')  navigate(-1);
+        if (e.key === 'ArrowRight') navigate(1);
+      }
+    });
+
+
+    /* ── Initial render ── */
+    renderPosts('all');
+
+  })();
+  </script>
+
+</body>
+</html>
