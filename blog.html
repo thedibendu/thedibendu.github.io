@@ -160,6 +160,14 @@
     const sorted = [...POSTS].sort((a, b) => b.date.localeCompare(a.date));
 
 
+    /* ── Like helpers (localStorage per post) ── */
+    function isLiked(id)    { return !!localStorage.getItem('like_' + id); }
+    function toggleLike(id) {
+      if (isLiked(id)) localStorage.removeItem('like_' + id);
+      else             localStorage.setItem('like_' + id, '1');
+    }
+
+
     /* ══ 1. NAV ══ */
     const navbar  = $('navbar');
     const toggle  = document.querySelector('.nav-toggle');
@@ -244,7 +252,14 @@
               <span class="post-date">${formatDate(post.date)}</span>
               <p class="post-title">${post.title}</p>
               <p class="post-caption-preview">${post.caption}</p>
-              ${tagsHTML ? `<div class="post-tags-row">${tagsHTML}</div>` : ''}
+            </div>
+            <div class="post-actions">
+              <button class="post-action-btn action-like" data-action="like" data-id="${post.id}" aria-label="Like">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+              </button>
+<button class="post-action-btn action-share" data-action="share" data-id="${post.id}" aria-label="Share">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </button>
             </div>
           </article>`;
       }).join('');
@@ -260,6 +275,24 @@
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
         });
       });
+
+      /* Action buttons — stop propagation so card click doesn't also fire */
+      grid.querySelectorAll('.post-action-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const id = Number(btn.dataset.id);
+          if (btn.dataset.action === 'like') {
+            toggleLike(id);
+            btn.classList.toggle('liked', isLiked(id));
+          }
+if (btn.dataset.action === 'share')   sharePost(sorted.find(p => p.id === id));
+        });
+      });
+
+      /* Restore liked state from localStorage */
+      grid.querySelectorAll('.action-like').forEach(btn => {
+        if (isLiked(Number(btn.dataset.id))) btn.classList.add('liked');
+      });
     }
 
 
@@ -273,7 +306,38 @@
     });
 
 
-    /* ══ 5. LIGHTBOX ══ */
+    /* ══ 5. SHARE + TOAST ══ */
+    function showToast(msg) {
+      let toast = document.querySelector('.toast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'toast';
+        document.body.appendChild(toast);
+      }
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    async function sharePost(post) {
+      if (!post) return;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: post.title, text: post.caption, url: window.location.href });
+        } catch (e) { /* user cancelled */ }
+      } else {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('Link copied!');
+        } catch (e) {
+          showToast('Copy the URL from your browser to share.');
+        }
+      }
+    }
+
+
+    /* ══ 6. LIGHTBOX ══ */
     const lightbox   = $('lightbox');
     const lbInner    = $('lb-inner');
     const lbMedia    = $('lb-media');

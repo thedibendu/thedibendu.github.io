@@ -44,8 +44,8 @@ const POSTS = [
     date: "2026-06-17",
     category: "lab",
     title: "Welcome to my journal!",
-    caption: "This is where I'll document moments from the lab, trips with the Morais lab crew, experiments that worked (and some that didn't), and anything exciting that happens along the way. Stay tuned!",
-    images: [],
+    caption: "Sugar valley kayaking",
+    images: ["images/posts/t25.jpeg"],
     tags: ["hello", "lab"]
   }
 
