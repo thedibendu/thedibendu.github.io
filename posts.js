@@ -52,7 +52,7 @@ const POSTS = [
     category: "life",
     title: "It's Me",
     caption: "I just look great",
-    images: ["images/posts/p1.jpg"],
+    images: ["images/posts/p1.JPG"],
     tags: ["life"]
   },
 
