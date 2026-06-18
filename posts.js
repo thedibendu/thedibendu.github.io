@@ -26,18 +26,15 @@ const POSTS = [
 
   // ── ✦ TEMPLATE — copy this whole block for every new post ──
   // {
-  //   id:       2,                               // unique number (increment each time)
+  //   id:       4,                               // unique number (increment each time)
   //   date:     "2026-06-17",                    // YYYY-MM-DD
   //   category: "lab",                           // lab | trip | experiment | life
   //   title:    "Your post title",
-  //   caption:  "Write whatever you want here — what happened, how you felt, what you learned. As long or short as you like.",
+  //   caption:  "Write whatever you want here.",
   //   images:   ["images/posts/your-photo.jpg"], // [] if no photo
-  //   tags:     ["cryo-em", "lab-life"]          // short, lowercase tags
+  //   tags:     ["cryo-em", "lab-life"]
   // },
   // ──────────────────────────────────────────────────────────
-
-
-  // ── Your entries go below ─────────────────────────────────
 
   {
     id: 1,
@@ -47,6 +44,26 @@ const POSTS = [
     caption: "Sugar valley kayaking",
     images: ["images/posts/t25.jpeg"],
     tags: ["hello", "lab"]
+  },
+
+  {
+    id: 2,
+    date: "2026-06-17",
+    category: "life",
+    title: "It's Me",
+    caption: "I just look great",
+    images: ["images/posts/p1.jpg"],
+    tags: ["life"]
+  },
+
+  {
+    id: 3,
+    date: "2026-06-17",
+    category: "life",
+    title: "It's Me",
+    caption: "isn't that looks cool, The pose is inspired from someone I really ❤️",
+    images: ["images/posts/p2.jpg"],
+    tags: ["life"]
   }
 
 ];
