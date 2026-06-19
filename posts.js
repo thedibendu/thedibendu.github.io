@@ -37,7 +37,7 @@ const POSTS = [
   // ──────────────────────────────────────────────────────────
 
   {
-    id: 1,
+    id: 4,
     date: "2026-06-17",
     category: "lab",
     title: "Welcome to my journal!",
@@ -47,7 +47,7 @@ const POSTS = [
   },
 
   {
-    id: 2,
+    id: 1,
     date: "2026-06-17",
     category: "life",
     title: "It's Me",
@@ -57,12 +57,22 @@ const POSTS = [
   },
 
   {
-    id: 3,
+    id: 2,
     date: "2026-06-17",
     category: "life",
     title: "It's Me",
     caption: "isn't that looks cool, The pose is inspired from someone I really ❤️",
     images: ["images/posts/p2.jpg"],
+    tags: ["life"]
+  },
+
+  {
+    id: 3,
+    date: "2026-06-18",
+    category: "life",
+    title: "It's Me",
+    caption: "last saturday",
+    images: ["images/posts/p4.jpg"],
     tags: ["life"]
   }
 
