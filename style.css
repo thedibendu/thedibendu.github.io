@@ -44,7 +44,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { display: none; }
   --sans: 'DM Sans', system-ui, -apple-system, sans-serif;
 
   /* Layout */
-  --max-w:  1100px;
+  --max-w:  1400px;
   --nav-h:  64px;
 }
 
@@ -139,7 +139,7 @@ p:last-child { margin-bottom: 0; }
 .nav-inner {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 36px;
+  padding: 0 clamp(24px, 5.5vw, 60px);
   height: 100%;
   display: flex;
   align-items: center;
@@ -243,7 +243,7 @@ p:last-child { margin-bottom: 0; }
   );
   background-size: 400% 400%;
   animation: heroShift 18s ease-in-out infinite;
-  padding: calc(var(--nav-h) + 60px) 36px 100px;
+  padding: calc(var(--nav-h) + 60px) clamp(24px, 5.5vw, 60px) 100px;
 }
 
 /* Canvas particle network — fills hero, behind everything */
@@ -467,7 +467,7 @@ p:last-child { margin-bottom: 0; }
 .container {
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 0 36px;
+  padding: 0 clamp(24px, 5.5vw, 60px);
 }
 .container--narrow { max-width: 700px; }
 
@@ -539,8 +539,8 @@ section { padding: 100px 0; }
 ───────────────────────────────────────── */
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr min(280px, 35vw);
-  gap: clamp(32px, 6vw, 72px);
+  grid-template-columns: 1fr clamp(220px, 34vw, 480px);
+  gap: clamp(40px, 5vw, 80px);
   align-items: center;
 }
 
@@ -553,7 +553,6 @@ section { padding: 100px 0; }
   font-weight: 300;
   line-height: 1.82;
   color: var(--text-mid);
-  max-width: 580px;
   margin-bottom: 1.2em;
 }
 
@@ -779,7 +778,7 @@ section { padding: 100px 0; }
 ───────────────────────────────────────── */
 footer {
   border-top: 1px solid rgba(6,182,212,0.08);
-  padding: 28px 36px;
+  padding: 28px clamp(24px, 5.5vw, 60px);
   text-align: center;
   font-size: 13px;
   color: rgba(255,255,255,0.2);
