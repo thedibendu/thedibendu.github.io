@@ -74,6 +74,16 @@ const POSTS = [
     caption: "last saturday",
     images: ["images/posts/p4.jpg"],
     tags: ["life"]
+  },
+
+   {
+    id: 3,
+    date: "2026-06-20",
+    category: "trip",
+    title: "Turkey Run Hike",
+    caption: "went for hiking after 15 miles kayaking",
+    images: ["images/posts/p5.heic"],
+    tags: ["life"]
   }
 
 ];
