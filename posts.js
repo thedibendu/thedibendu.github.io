@@ -77,7 +77,7 @@ const POSTS = [
   },
 
    {
-    id: 3,
+    id: 4,
     date: "2026-06-20",
     category: "trip",
     title: "Turkey Run Hike",
