@@ -829,7 +829,7 @@ footer {
 }
 
 /* Mobile nav */
-@media (max-width: 640px) {
+@media (max-width: 820px) {
   .nav-toggle { display: flex; }
 
   .nav-links {
