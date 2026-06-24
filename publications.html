@@ -6,6 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Publications, manuscripts, posters, and research output from Dibendu Singh.">
 
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://thedibendu.github.io/publications.html">
+  <meta property="og:title"       content="Publications — Dibendu Singh">
+  <meta property="og:description" content="Publications, manuscripts, posters, and research output from Dibendu Singh.">
+  <meta property="og:image"       content="https://thedibendu.github.io/photo.jpg">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Publications — Dibendu Singh">
+  <meta name="twitter:description" content="Publications, manuscripts, posters, and research output from Dibendu Singh.">
+  <meta name="twitter:image"       content="https://thedibendu.github.io/photo.jpg">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
@@ -61,80 +75,7 @@
 
       <div class="publication-layout">
 
-        <div class="publication-stack">
-
-          <!--
-            To add a new publication:
-            1. Copy one full <article class="publication-card reveal">...</article> block.
-            2. Paste it inside this publication-stack.
-            3. Edit the badge, year, title, authors, note, and tags.
-            See README.md for detailed examples, DOI links, and PDF links.
-          -->
-
-          <article class="publication-card reveal">
-            <div class="publication-card-bar"></div>
-            <div class="publication-card-body">
-              <div class="publication-meta">
-                <span class="publication-badge">Manuscript in preparation</span>
-                <span class="publication-year">2026</span>
-              </div>
-              <h2>Structural basis of ATP-driven DNA translocation by molecular motors</h2>
-              <p class="publication-authors">Dibendu Singh and collaborators</p>
-              <p class="publication-note">
-                Ongoing work focused on conformational states, ATPase-driven motion, and
-                force generation in DNA-moving protein assemblies.
-              </p>
-              <div class="publication-tags">
-                <span class="publication-tag">cryo-EM</span>
-                <span class="publication-tag">DNA translocation</span>
-                <span class="publication-tag">molecular motors</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="publication-card reveal" style="--delay:0.08s">
-            <div class="publication-card-bar"></div>
-            <div class="publication-card-body">
-              <div class="publication-meta">
-                <span class="publication-badge">Poster / presentation</span>
-                <span class="publication-year">Upcoming</span>
-              </div>
-              <h2>Cryo-EM workflows for resolving dynamic protein complexes</h2>
-              <p class="publication-authors">Dibendu Singh</p>
-              <p class="publication-note">
-                A methods-oriented research story around sample preparation, image processing,
-                model building, and interpretation of flexible biological assemblies.
-              </p>
-              <div class="publication-tags">
-                <span class="publication-tag">single-particle analysis</span>
-                <span class="publication-tag">model building</span>
-                <span class="publication-tag">workflow automation</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="publication-card reveal" style="--delay:0.16s">
-            <div class="publication-card-bar"></div>
-            <div class="publication-card-body">
-              <div class="publication-meta">
-                <span class="publication-badge">Research notes</span>
-                <span class="publication-year">Active</span>
-              </div>
-              <h2>Computational analysis for cryo-EM density interpretation</h2>
-              <p class="publication-authors">Dibendu Singh</p>
-              <p class="publication-note">
-                Python-based tooling and analysis ideas for connecting density maps,
-                model fitting, and structural interpretation.
-              </p>
-              <div class="publication-tags">
-                <span class="publication-tag">Python</span>
-                <span class="publication-tag">map interpretation</span>
-                <span class="publication-tag">structural biology</span>
-              </div>
-            </div>
-          </article>
-
-        </div>
+        <div class="publication-stack" id="pub-stack"></div>
 
         <aside class="publication-side">
           <div class="publication-side-card reveal" style="--delay:0.1s">
@@ -160,36 +101,28 @@
           </div>
 
           <div class="publication-side-card reveal" style="--delay:0.18s">
-            <h2>Pipeline</h2>
+            <h2>Manuscript Status</h2>
             <div class="timeline">
               <div class="timeline-item">
-                <strong>Data collection</strong>
-                <span>Cryo-EM datasets and biochemical validation.</span>
+                <strong>In preparation</strong>
+                <span>Active manuscript and figure development before submission.</span>
               </div>
               <div class="timeline-item">
-                <strong>Image processing</strong>
-                <span>Classification, refinement, and map interpretation.</span>
+                <strong>Under review</strong>
+                <span>Submitted papers will be listed here while review is ongoing.</span>
               </div>
               <div class="timeline-item">
-                <strong>Model building</strong>
-                <span>Atomic model fitting, validation, and biological analysis.</span>
+                <strong>Published</strong>
+                <span>Final citations, journal links, DOI links, and PDFs.</span>
               </div>
               <div class="timeline-item">
-                <strong>Publication</strong>
-                <span>Manuscript, figures, and presentation-ready outputs.</span>
+                <strong>Posters &amp; talks</strong>
+                <span>Conference posters, seminar slides, and presentation records.</span>
               </div>
             </div>
           </div>
         </aside>
 
-      </div>
-
-      <div class="publication-cta reveal">
-        <p>
-          This page is designed to grow with the research record. Final citations,
-          DOI links, posters, and PDFs can be added as they become public.
-        </p>
-        <a href="index.html#contact" class="btn btn-cyan">Contact for Research</a>
       </div>
 
     </div>
@@ -203,9 +136,61 @@
 
   <button id="back-top" aria-label="Back to top">&#8593;</button>
 
+  <script src="publications.js"></script>
   <script>
   (function () {
     'use strict';
+
+    // Render publication cards from publications.js.
+    // Future publications should be added in publications.js, not hard-coded here.
+    const stack = document.getElementById('pub-stack');
+
+    function appendText(parent, tagName, className, text) {
+      const el = document.createElement(tagName);
+      if (className) el.className = className;
+      el.textContent = text || '';
+      parent.appendChild(el);
+      return el;
+    }
+
+    function renderPublication(pub, i) {
+      const card = document.createElement('a');
+      card.className = 'publication-card publication-card-link reveal';
+      card.href = pub.url || '#';
+      card.target = '_blank';
+      card.rel = 'noopener';
+      card.setAttribute('aria-label', 'Open publication: ' + (pub.title || 'Untitled publication'));
+      if (i > 0) card.style.setProperty('--delay', (i * 0.08).toFixed(2) + 's');
+
+      const bar = document.createElement('div');
+      bar.className = 'publication-card-bar';
+      card.appendChild(bar);
+
+      const body = document.createElement('div');
+      body.className = 'publication-card-body';
+      card.appendChild(body);
+
+      const meta = document.createElement('div');
+      meta.className = 'publication-meta';
+      body.appendChild(meta);
+
+      appendText(meta, 'span', 'publication-badge', pub.badge);
+      appendText(meta, 'span', 'publication-year', pub.year);
+      appendText(body, 'h2', '', pub.title);
+      appendText(body, 'p', 'publication-authors', pub.authors);
+      appendText(body, 'p', 'publication-note', pub.note);
+
+      const tags = document.createElement('div');
+      tags.className = 'publication-tags';
+      (pub.tags || []).forEach(function (tag) {
+        appendText(tags, 'span', 'publication-tag', tag);
+      });
+      body.appendChild(tags);
+
+      stack.appendChild(card);
+    }
+
+    (window.PUBLICATIONS || []).forEach(renderPublication);
 
     const navbar = document.getElementById('navbar');
     const toggle = document.querySelector('.nav-toggle');

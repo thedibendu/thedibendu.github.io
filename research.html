@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="page-title">Research — Dibendu Singh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" id="page-desc" content="Research explainer — Dibendu Singh.">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="shortcut icon" href="favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website">
+  <meta property="og:url"         content="https://thedibendu.github.io/research.html">
+  <meta property="og:title"       content="Research — Dibendu Singh">
+  <meta property="og:description" content="Structural biology research on molecular motors, cryo-EM, and DNA translocation.">
+  <meta property="og:image"       content="https://thedibendu.github.io/photo.jpg">
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Research — Dibendu Singh">
+  <meta name="twitter:description" content="Structural biology research on molecular motors, cryo-EM, and DNA translocation.">
+  <meta name="twitter:image"       content="https://thedibendu.github.io/photo.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="research-pages.css">
+</head>
+
+<body>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-brand">DS</a>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-links">
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#research" class="active">Research</a></li>
+        <li><a href="index.html#skills">Skills</a></li>
+        <li><a href="index.html#cv">CV</a></li>
+        <li><a href="blog.html">Journal</a></li>
+        <li><a href="publications.html">Publications</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="page-main">
+    <!-- Rendered by JS from research.js -->
+  </main>
+
+  <footer class="bg-dark">
+    <p>&copy; 2026 Dibendu Singh &nbsp;&middot;&nbsp;
+      <a href="index.html#research" style="color:rgba(255,255,255,0.32);">Back to research</a>
+    </p>
+  </footer>
+
+  <button id="back-top" aria-label="Back to top">&#8593;</button>
+
+  <script src="research.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    var ALL = window.RESEARCH || [];
+
+    function escapeHTML(v) {
+      return String(v != null ? v : '').replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    // Redirect if topic is missing or unknown
+    var params  = new URLSearchParams(window.location.search);
+    var topicId = params.get('topic');
+    var topic   = ALL.find(function (r) { return r.id === topicId; });
+
+    if (!topic) {
+      window.location.replace('index.html#research');
+      return;
+    }
+
+    document.getElementById('page-title').textContent = topic.title + ' — Dibendu Singh';
+    document.getElementById('page-desc').setAttribute('content', topic.lede);
+
+    // Decorative visual panel — each type uses its own rich set of CSS elements
+    function buildVisual(type, chips) {
+      chips = chips || ['', '', ''];
+      var inner = '';
+      if (type === 'translocase') {
+        inner = '<div class="dna-ribbon"></div><div class="motor-ring"></div><div class="dna-track"></div>';
+      } else if (type === 'motor') {
+        inner = '<div class="motor-cycle"><span></span><span></span><span></span><span></span></div><div class="motor-ring"></div>';
+      } else if (type === 'capsid') {
+        inner = '<div class="capsid-shell"></div><div class="motor-ring compact"></div><div class="genome-thread"></div>';
+      } else if (type === 'microscope') {
+        inner = '<div class="microscope-column"></div><div class="particle-field"></div><div class="density-cloud small"></div>';
+      } else if (type === 'model') {
+        inner = '<div class="density-cloud"></div><div class="model-chain"></div><div class="fit-frame"></div>';
+      } else if (type === 'workflow') {
+        inner =
+          '<div class="code-panel">' +
+            '<span><b>load</b> particles.star</span>' +
+            '<span><b>classify</b> conformations</span>' +
+            '<span><b>refine</b> map.mrc</span>' +
+            '<span><b>validate</b> model.pdb</span>' +
+          '</div>';
+      } else {
+        inner = '<div class="density-cloud"></div>';
+      }
+      inner +=
+        '<span class="visual-chip chip-a">' + escapeHTML(chips[0]) + '</span>' +
+        '<span class="visual-chip chip-b">' + escapeHTML(chips[1]) + '</span>' +
+        '<span class="visual-chip chip-c">' + escapeHTML(chips[2]) + '</span>';
+      return '<div class="visual-stage">' + inner + '</div>';
+    }
+
+    // Horizontal topic navigation strip
+    function buildTopicNav(all, currentId) {
+      var items = all.map(function (r) {
+        var cls = 'topic-nav-item' + (r.id === currentId ? ' active' : '');
+        return '<a href="research.html?topic=' + encodeURIComponent(r.id) + '" class="' + cls + '">' + escapeHTML(r.title) + '</a>';
+      }).join('');
+      return '<nav class="topic-nav"><div class="topic-nav-list">' + items + '</div></nav>';
+    }
+
+    // Three numbered process points
+    function buildPoints(points) {
+      return (points || []).map(function (p, i) {
+        var delay = i > 0 ? ' style="--delay:' + (i * 0.08).toFixed(2) + 's"' : '';
+        return (
+          '<div class="research-point reveal"' + delay + '>' +
+            '<span>' + (i + 1) + '</span>' +
+            '<h3>' + escapeHTML(p.label) + '</h3>' +
+            '<p>' + escapeHTML(p.text) + '</p>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    // Research focus cards (question + readout)
+    function buildFocus(focus) {
+      if (!focus || !focus.length) return '';
+      var items = focus.map(function (item, i) {
+        var delay = i > 0 ? ' style="--delay:0.1s"' : '';
+        return (
+          '<div class="research-focus-item reveal"' + delay + '>' +
+            '<span class="research-focus-label">' + escapeHTML(item.label) + '</span>' +
+            '<p class="research-focus-text">' + escapeHTML(item.text) + '</p>' +
+          '</div>'
+        );
+      }).join('');
+      return (
+        '<section class="research-focus">' +
+          '<div class="container">' +
+            '<p class="research-focus-heading">// Research focus</p>' +
+            '<div class="research-focus-grid">' + items + '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    var nextTopic = ALL.find(function (r) { return r.id === topic.next; });
+    var nextBtn = nextTopic
+      ? '<a href="research.html?topic=' + encodeURIComponent(nextTopic.id) + '" class="btn btn-cyan">Next: ' + escapeHTML(nextTopic.title) + '</a>'
+      : '<a href="index.html#research" class="btn btn-cyan">Back to Research</a>';
+
+    var overviewParas = (topic.overview.paragraphs || []).map(function (p, i) {
+      var delay = i > 0 ? ' style="--delay:' + (i * 0.08).toFixed(2) + 's"' : '';
+      return '<p class="reveal"' + delay + '>' + escapeHTML(p) + '</p>';
+    }).join('');
+
+    // Build and inject the full page
+    document.getElementById('page-main').innerHTML =
+
+      '<section class="research-page-hero">' +
+        '<div class="research-hero-grid">' +
+          '<div>' +
+            '<a class="research-crumb" href="index.html#research">Research Interests</a>' +
+            '<h1 class="research-title">' + escapeHTML(topic.title) + '</h1>' +
+            '<p class="research-lede">' + escapeHTML(topic.lede) + '</p>' +
+            '<div class="research-hero-actions">' +
+              '<a href="#overview" class="btn btn-cyan">Understand the Idea</a>' +
+              '<a href="index.html#research" class="btn btn-ghost">Back to Research</a>' +
+            '</div>' +
+          '</div>' +
+          '<div class="research-visual" aria-hidden="true">' +
+            buildVisual(topic.visual, topic.chips) +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+
+      buildTopicNav(ALL, topicId) +
+
+      '<section id="overview" class="research-body">' +
+        '<div class="container">' +
+          '<div class="research-intro">' +
+            '<div class="research-copy">' +
+              '<h2 class="reveal">' + escapeHTML(topic.overview.heading) + '</h2>' +
+              overviewParas +
+            '</div>' +
+            '<div class="research-stat-card reveal" style="--delay:0.1s">' +
+              '<strong>' + escapeHTML(topic.overview.stat.value) + '</strong>' +
+              '<span>' + escapeHTML(topic.overview.stat.label) + '</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>' +
+      '</section>' +
+
+      '<section class="research-feature-band">' +
+        '<div class="container research-feature-grid">' +
+          buildPoints(topic.points) +
+        '</div>' +
+      '</section>' +
+
+      buildFocus(topic.focus) +
+
+      '<section class="research-next">' +
+        '<div class="container">' +
+          '<div class="research-next-grid reveal">' +
+            '<div>' +
+              '<h2>Why it matters</h2>' +
+              '<p>' + escapeHTML(topic.why) + '</p>' +
+            '</div>' +
+            nextBtn +
+          '</div>' +
+        '</div>' +
+      '</section>';
+
+    // Wire up scroll-reveal for injected elements
+    var revealObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('#page-main .reveal').forEach(function (el) {
+      revealObs.observe(el);
+    });
+
+    // Nav scroll + back-to-top
+    var navbar  = document.getElementById('navbar');
+    var toggle  = document.querySelector('.nav-toggle');
+    var backTop = document.getElementById('back-top');
+
+    window.addEventListener('scroll', function () {
+      var sy = window.scrollY;
+      navbar.classList.toggle('scrolled', sy > 80);
+      backTop.classList.toggle('visible', sy > 400);
+    }, { passive: true });
+
+    backTop.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    toggle.addEventListener('click', function () {
+      var open = navbar.classList.toggle('nav-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        navbar.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
+
+  })();
+  </script>
+
+</body>
+</html>

@@ -8,52 +8,34 @@ Personal academic website for Dibendu Singh. The site is plain HTML, CSS, and Ja
 - `blog.html` - journal page layout and journal behavior.
 - `posts.js` - journal post data.
 - `publications.html` - standalone publications page.
+- `publications.js` - publication card data.
+- `research.html` - reusable research explainer page.
+- `research.js` - research topic data.
+- `research-pages.css` - research explainer page styles.
 - `style.css` - shared site styles.
 - `blog.css` - journal-only styles.
 - `publications.css` - publications-only styles.
 
 ## How To Add A Real Publication
 
-Open `publications.html` and find:
+Open `publications.js`. Copy the commented template near the top, paste it inside the `PUBLICATIONS` array, and edit the fields:
 
-```html
-<div class="publication-stack">
+```js
+{
+  id: 4,
+  badge: "Published",
+  year: "2026",
+  title: "Your full publication title goes here",
+  authors: "Author One, Dibendu Singh, Author Three",
+  note: "Journal name, volume, pages, or a short one-sentence description.",
+  tags: ["cryo-EM", "molecular motors", "DNA translocation"],
+  url: "https://doi.org/YOUR-DOI-HERE"
+}
 ```
 
-Each publication is one block that starts with:
+The Publications page builds the visual cards automatically from `publications.js`.
 
-```html
-<article class="publication-card reveal">
-```
-
-and ends with:
-
-```html
-</article>
-```
-
-Copy one full `<article>` block, paste it inside `.publication-stack`, and edit these parts:
-
-```html
-<span class="publication-badge">Published article</span>
-<span class="publication-year">2026</span>
-
-<h2>Your full publication title goes here</h2>
-<p class="publication-authors">Author One, Dibendu Singh, Author Three</p>
-<p class="publication-note">
-  Journal name, volume, pages, or a short one-sentence description.
-</p>
-```
-
-Update the tags at the bottom of the card:
-
-```html
-<span class="publication-tag">cryo-EM</span>
-<span class="publication-tag">molecular motors</span>
-<span class="publication-tag">DNA translocation</span>
-```
-
-Good badge examples:
+Good `badge` examples:
 
 - `Published article`
 - `Preprint`
@@ -62,38 +44,18 @@ Good badge examples:
 - `Conference talk`
 - `Research notes`
 
-## How To Add A DOI, PDF, Or PubMed Link
+## How To Link A Publication Card
 
-Inside a publication card, add this near the bottom, after the tags:
+Each publication card is designed to work as one big clickable button. Put the research paper website, DOI, PubMed page, preprint, poster, or PDF URL directly in the `url` field in `publications.js`.
 
-```html
-<div class="publication-links">
-  <a href="https://doi.org/YOUR-DOI-HERE" target="_blank" rel="noopener">DOI</a>
-  <a href="cv_claude.pdf" target="_blank" rel="noopener">PDF</a>
-</div>
-```
+Use these common link formats:
 
-If you add this link block, also add matching CSS to `publications.css`:
+- DOI: `https://doi.org/10.xxxx/xxxxx`
+- PubMed: `https://pubmed.ncbi.nlm.nih.gov/PMID/`
+- Journal page: paste the journal article URL
+- Local PDF: put the PDF in the repo, then use `href="filename.pdf"`
 
-```css
-.publication-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
-}
-
-.publication-links a {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--cyan-bright);
-  border: 1px solid rgba(6,182,212,0.28);
-  border-radius: 999px;
-  padding: 6px 12px;
-}
-```
+Use `url: "#"` only when the work is not public yet. Do not add separate DOI/PDF buttons at the bottom unless the page design is intentionally changed.
 
 ## How To Update The Snapshot Numbers
 
@@ -136,6 +98,58 @@ Notes:
 - Put images in `images/posts/`.
 - Prefer `.jpg`, `.jpeg`, `.png`, or `.webp`.
 - Avoid `.heic` because many browsers do not display it.
+
+## How To Edit Research Explainer Pages
+
+The six Research Interest cards on `index.html` link to one reusable page:
+
+```text
+research.html?topic=dna-translocases
+```
+
+The page content comes from `research.js`. To change the text for a topic, open `research.js` and edit the matching object:
+
+```js
+{
+  id: "dna-translocases",
+  title: "DNA Translocases",
+  lede: "Short hero text...",
+  visual: "translocase",
+  chips: ["DNA", "ATP", "Force"],
+  overview: {
+    heading: "Section heading",
+    paragraphs: ["First paragraph.", "Second paragraph."],
+    stat: { value: "ATP", label: "short stat label" }
+  },
+  points: [
+    { label: "Grip", text: "Point text." },
+    { label: "Cycle", text: "Point text." },
+    { label: "Translocate", text: "Point text." }
+  ],
+  focus: [
+    { label: "Research question", text: "A question this topic helps answer." },
+    { label: "Structural readout", text: "The data or structure you would inspect." }
+  ],
+  why: "Why this topic matters.",
+  next: "molecular-motors",
+  nextLabel: "Molecular Motors"
+}
+```
+
+Current visual options are:
+
+- `translocase` - DNA strand threaded through an ATPase ring.
+- `motor` - conformational motor cycle.
+- `capsid` - viral capsid plus genome packaging motor.
+- `microscope` - cryo-EM imaging and particle reconstruction.
+- `model` - density map plus fitted model.
+- `workflow` - computational pipeline panel.
+
+To add a new research topic:
+
+- Add a new object to `research.js`.
+- Add a new card on `index.html` linking to `research.html?topic=your-id`.
+- Use one of the visual options listed at the top of `research.js`.
 
 ## Quick Local Preview
 
