@@ -220,7 +220,70 @@ window.RESEARCH = [
     ],
     why:       "Computational workflows protect the interpretability of structural biology projects. They make processing choices auditable, comparisons between states more reliable, and final figures and validation tables easier to reproduce.",
     next:      "dna-translocases",
-    nextLabel: "DNA Translocases"
+    nextLabel: "DNA Translocases",
+    codeExamples: [
+      {
+        label: 'Filter particles',
+        lang:  'Python',
+        note:  'RELION · starfile',
+        lines: [
+          'import starfile',
+          'import pandas as pd',
+          '',
+          '# Load particle metadata from RELION',
+          'df = starfile.read("particles.star")',
+          'print(f"  {len(df):,} particles loaded")',
+          '',
+          '# Keep high-confidence picks',
+          'filtered = df[df["rlnCtfMaxResolution"] < 4.0]',
+          'filtered = filtered[filtered["rlnAutopickFigureOfMerit"] > 0.15]',
+          'print(f"  {len(filtered):,} pass quality filter")',
+          '',
+          '# Export for refinement',
+          'starfile.write(filtered, "particles_filtered.star")'
+        ]
+      },
+      {
+        label: 'Batch refinement',
+        lang:  'Bash',
+        note:  'RELION pipeline',
+        lines: [
+          '#!/usr/bin/env bash',
+          '# Run 3D refinement for each class map',
+          '',
+          'for class_map in maps/class_*.mrc; do',
+          '    job=$(basename "$class_map" .mrc)',
+          '    relion_refine_mpi \\',
+          '      --i particles_filtered.star \\',
+          '      --ref "$class_map" \\',
+          '      --particle_diameter 200 \\',
+          '      --auto_refine \\',
+          '      --o "refine/${job}/"',
+          'done'
+        ]
+      },
+      {
+        label: 'Validate maps',
+        lang:  'Python',
+        note:  'PHENIX · subprocess',
+        lines: [
+          'import subprocess',
+          'import pathlib',
+          '',
+          'maps = sorted(pathlib.Path("maps").glob("*.mrc"))',
+          '',
+          '# Validate each map against its model',
+          'for mrc in maps:',
+          '    model = mrc.with_suffix(".pdb")',
+          '    subprocess.run([',
+          '        "phenix.mtriage",',
+          '        f"half_map_1={mrc.stem}_half1.mrc",',
+          '        f"half_map_2={mrc.stem}_half2.mrc",',
+          '        f"model={model}",',
+          '    ])'
+        ]
+      }
+    ]
   }
 
 ];

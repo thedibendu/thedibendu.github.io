@@ -72,6 +72,37 @@
       });
     }
 
+    // Syntax-highlight a single line of code (after HTML-escaping)
+    function hlLine(raw, lang) {
+      var s = (raw == null ? '' : String(raw))
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+      // Whole-line comment (including shebang)
+      if (/^\s*#/.test(s)) return '<span class="tok-cm">' + s + '</span>';
+
+      // Double-quoted strings (after HTML-escape " → &quot;)
+      s = s.replace(/(&quot;[^&\n]*?&quot;)/g, '<span class="tok-str">$1</span>');
+
+      // Inline trailing comment
+      s = s.replace(/(\s+#[^<]*)$/, '<span class="tok-cm">$1</span>');
+
+      if (lang === 'Python') {
+        s = s.replace(
+          /\b(import|from|as|if|elif|else|for|in|not|and|or|def|return|with|sorted|print|len|subprocess|pathlib)\b/g,
+          '<span class="tok-kw">$1</span>'
+        );
+      } else if (lang === 'Bash') {
+        s = s.replace(
+          /\b(for|do|done|if|then|fi|echo|export|basename)\b/g,
+          '<span class="tok-kw">$1</span>'
+        );
+      }
+      return s;
+    }
+
     // Redirect if topic is missing or unknown
     var params  = new URLSearchParams(window.location.search);
     var topicId = params.get('topic');
@@ -162,6 +193,51 @@
       );
     }
 
+    // Tabbed code example panel (only renders when topic.codeExamples exists)
+    function buildCodeShowcase(examples) {
+      if (!examples || !examples.length) return '';
+
+      var tabs = examples.map(function (ex, i) {
+        return (
+          '<button class="code-tab' + (i === 0 ? ' active' : '') + '" data-panel="cp-' + i + '">' +
+            escapeHTML(ex.label) +
+          '</button>'
+        );
+      }).join('');
+
+      var panels = examples.map(function (ex, i) {
+        var codeLines = ex.lines.map(function (line) {
+          return '<span class="code-line">' + hlLine(line, ex.lang) + '</span>';
+        }).join('');
+
+        return (
+          '<div class="code-panel-content' + (i === 0 ? ' active' : '') + '" id="cp-' + i + '">' +
+            '<div class="code-window-bar">' +
+              '<span class="code-dot code-dot-red"></span>' +
+              '<span class="code-dot code-dot-yel"></span>' +
+              '<span class="code-dot code-dot-grn"></span>' +
+              '<span class="code-window-filename">' + escapeHTML(ex.lang.toLowerCase()) + '</span>' +
+            '</div>' +
+            '<div class="code-body"><pre>' + codeLines + '</pre></div>' +
+            '<div class="code-footer">' +
+              '<span class="code-lang-badge">' + escapeHTML(ex.lang) + '</span>' +
+              '<span class="code-note">' + escapeHTML(ex.note) + '</span>' +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+
+      return (
+        '<section class="code-showcase">' +
+          '<div class="container">' +
+            '<p class="code-showcase-heading">// Automation examples</p>' +
+            '<div class="code-tabs">' + tabs + '</div>' +
+            '<div class="code-window">' + panels + '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
     var nextTopic = ALL.find(function (r) { return r.id === topic.next; });
     var nextBtn = nextTopic
       ? '<a href="research.html?topic=' + encodeURIComponent(nextTopic.id) + '" class="btn btn-cyan">Next: ' + escapeHTML(nextTopic.title) + '</a>'
@@ -217,6 +293,8 @@
 
       buildFocus(topic.focus) +
 
+      buildCodeShowcase(topic.codeExamples) +
+
       '<section class="research-next">' +
         '<div class="container">' +
           '<div class="research-next-grid reveal">' +
@@ -268,6 +346,18 @@
         navbar.classList.remove('nav-open');
         toggle.setAttribute('aria-expanded', 'false');
         toggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
+
+    // Wire up code example tabs
+    document.querySelectorAll('#page-main .code-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var panelId = tab.getAttribute('data-panel');
+        document.querySelectorAll('#page-main .code-tab').forEach(function (t) { t.classList.remove('active'); });
+        document.querySelectorAll('#page-main .code-panel-content').forEach(function (p) { p.classList.remove('active'); });
+        tab.classList.add('active');
+        var panel = document.getElementById(panelId);
+        if (panel) panel.classList.add('active');
       });
     });
 
