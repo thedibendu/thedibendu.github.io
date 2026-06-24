@@ -243,7 +243,7 @@ p:last-child { margin-bottom: 0; }
   );
   background-size: 400% 400%;
   animation: heroShift 18s ease-in-out infinite;
-  padding: calc(var(--nav-h) + 60px) clamp(24px, 5.5vw, 60px) 100px;
+  padding: calc(var(--nav-h) + 60px) 0 80px;
 }
 
 /* Canvas particle network — fills hero, behind everything */
@@ -374,6 +374,193 @@ p:last-child { margin-bottom: 0; }
   border-right: 2px solid #fff;
   border-bottom: 2px solid #fff;
   transform: rotate(45deg) translateY(-3px);
+}
+
+
+/* ─────────────────────────────────────────
+   HERO TWO-COLUMN LAYOUT
+───────────────────────────────────────── */
+@keyframes hv-spin       { to { transform: rotate(360deg); } }
+@keyframes hv-pulse      { 0%,100%{opacity:0.6} 50%{opacity:1} }
+@keyframes hv-dna-flow   { 0%,100%{opacity:0.7;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.01)} }
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 64px;
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 clamp(24px, 5.5vw, 72px);
+}
+
+/* Let the grid column control width instead of a fixed max-width */
+.hero-inner .hero-content { max-width: none; }
+
+/* ── Visual panel ── */
+.hero-visual {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  aspect-ratio: 1;
+  justify-self: end;
+}
+
+/* No border/box around hero visual — user wants seamless look (no square frame) */
+
+/* ── Signature hexameric ATPase motor visual
+   Ghost heptagonal capsid behind a spinning 6-subunit ring + DNA beam.
+   Represents cryo-EM / molecular motor / DNA packaging in one compact image. */
+
+.hv-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Soft cryo-EM density-map glow */
+.hv-bg {
+  position: absolute;
+  inset: 14%;
+  background: radial-gradient(circle,
+    rgba(6,182,212,0.20) 0%,
+    rgba(6,182,212,0.07) 45%,
+    transparent 70%
+  );
+  filter: blur(28px);
+  animation: hv-pulse 5s ease-in-out infinite;
+}
+
+/* Ghost heptagonal capsid shell — sets biological context without cluttering */
+.hv-capsid-shell {
+  position: absolute;
+  width: 96%; height: 96%;
+  top: 2%; left: 2%;
+  clip-path: polygon(50% 0%, 90% 18%, 100% 62%, 72% 100%, 28% 100%, 0% 62%, 10% 18%);
+  border: 1px solid rgba(34,211,238,0.13);
+  background: rgba(34,211,238,0.018);
+}
+
+/* Hexameric ATPase motor ring container */
+.hv-motor-wrap {
+  position: relative;
+  width: 68%;
+  aspect-ratio: 1;
+}
+
+/* Six ATPase arc segments via conic-gradient + mask */
+.hv-arcs {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: hv-spin 34s linear infinite;
+}
+.hv-arcs::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    rgba(6,182,212,0.65)   0deg  52deg, transparent  52deg  60deg,
+    rgba(6,182,212,0.48)  60deg 112deg, transparent 112deg 120deg,
+    rgba(6,182,212,0.58) 120deg 172deg, transparent 172deg 180deg,
+    rgba(6,182,212,0.65) 180deg 232deg, transparent 232deg 240deg,
+    rgba(6,182,212,0.48) 240deg 292deg, transparent 292deg 300deg,
+    rgba(6,182,212,0.58) 300deg 352deg, transparent 352deg 360deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 58%, rgba(0,0,0,0.5) 62%, black 68%);
+  mask:         radial-gradient(circle, transparent 58%, rgba(0,0,0,0.5) 62%, black 68%);
+}
+.hv-arcs::after {
+  content: '';
+  position: absolute;
+  inset: 12%;
+  border-radius: 50%;
+  border: 1px solid rgba(6,182,212,0.18);
+}
+
+/* Six subunit dots — orbit synced with arc rotation */
+.hv-dots {
+  position: absolute;
+  inset: 0;
+  animation: hv-spin 34s linear infinite;
+}
+.hv-dots span {
+  position: absolute;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  top: calc(50% - 4.5px);
+  left: calc(50% - 4.5px);
+  background: rgba(34,211,238,1);
+  box-shadow: 0 0 10px rgba(34,211,238,0.85), 0 0 24px rgba(34,211,238,0.35);
+}
+/* Orbit radius ≈ 78px — tuned for motor-wrap ~270px at 500px visual */
+.hv-dots span:nth-child(1) { transform: rotate(0deg)   translateX(114px); }
+.hv-dots span:nth-child(2) { transform: rotate(60deg)  translateX(114px); }
+.hv-dots span:nth-child(3) { transform: rotate(120deg) translateX(114px); }
+.hv-dots span:nth-child(4) { transform: rotate(180deg) translateX(114px); }
+.hv-dots span:nth-child(5) { transform: rotate(240deg) translateX(114px); }
+.hv-dots span:nth-child(6) { transform: rotate(300deg) translateX(114px); }
+
+/* Portal / DNA entry channel at center */
+.hv-portal-ring {
+  position: absolute;
+  width: 22%; height: 22%;
+  top: 39%; left: 39%;
+  border-radius: 50%;
+  border: 2px solid rgba(34,211,238,0.92);
+  box-shadow:
+    0 0 18px rgba(34,211,238,0.65),
+    0 0 44px rgba(34,211,238,0.2),
+    inset 0 0 12px rgba(34,211,238,0.28);
+  animation: hv-pulse 2.6s ease-in-out infinite;
+}
+
+/* DNA thread through portal */
+.hv-dna-line {
+  position: absolute;
+  width: 2.5px;
+  left: calc(50% - 1.25px);
+  top: 8%; bottom: 8%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(34,211,238,0.10) 8%,
+    rgba(34,211,238,0.72) 30%,
+    rgba(255,255,255,0.92) 50%,
+    rgba(34,211,238,0.72) 70%,
+    rgba(34,211,238,0.10) 92%,
+    transparent 100%
+  );
+  border-radius: 2px;
+  filter: blur(0.5px);
+  box-shadow: 0 0 8px rgba(34,211,238,0.55), 0 0 22px rgba(34,211,238,0.2);
+  animation: hv-dna-flow 2.8s ease-in-out infinite;
+}
+
+/* Research identity badge */
+.hv-badge {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(6,182,212,0.42);
+  white-space: nowrap;
+}
+
+/* ── Responsive: collapse to single column below 900px ── */
+@media (max-width: 900px) {
+  .hero-inner { display: block; }
+  .hero-visual { display: none; }
 }
 
 
@@ -878,7 +1065,7 @@ footer {
   #navbar.nav-open .nav-toggle span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   #navbar.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
-  #hero { padding-left: 24px; padding-right: 24px; }
+  .hero-inner { padding: 0 24px; gap: 40px; }
   .hero-actions { flex-direction: column; align-items: flex-start; }
   .container { padding: 0 24px; }
 }

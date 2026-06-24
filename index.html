@@ -66,27 +66,52 @@
     <div class="orb orb-2" aria-hidden="true"></div>
     <div class="orb orb-3" aria-hidden="true"></div>
 
-    <div class="hero-content">
+    <div class="hero-inner">
 
-      <p class="hero-eyebrow">
-        <span class="eyebrow-bracket" aria-hidden="true">//</span>
-        PhD Student &middot; Structural Biology
-      </p>
+      <div class="hero-content">
 
-      <!-- Name with subtle glow -->
-      <h1 class="hero-name">Dibendu<br>Singh</h1>
+        <p class="hero-eyebrow">
+          <span class="eyebrow-bracket" aria-hidden="true">//</span>
+          PhD Student &middot; Structural Biology
+        </p>
 
-      <p class="hero-tags">Cryo-EM &nbsp;·&nbsp; Structural Biology &nbsp;·&nbsp; Molecular Motors &nbsp;·&nbsp; DNA Translocation</p>
+        <!-- Name with subtle glow -->
+        <h1 class="hero-name">Dibendu<br>Singh</h1>
 
-      <p class="hero-bio">
-        Studying the ATP-driven machines that move DNA — using cryo-electron
-        microscopy and computational structure determination to reveal how proteins
-        generate force at the molecular scale.
-      </p>
+        <p class="hero-tags">Cryo-EM &nbsp;·&nbsp; Structural Biology &nbsp;·&nbsp; Molecular Motors &nbsp;·&nbsp; DNA Translocation</p>
 
-      <div class="hero-actions">
-        <a href="#research" class="btn btn-cyan">Explore Research</a>
-        <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+        <p class="hero-bio">
+          Studying the ATP-driven machines that move DNA — using cryo-electron
+          microscopy and computational structure determination to reveal how proteins
+          generate force at the molecular scale.
+        </p>
+
+        <div class="hero-actions">
+          <a href="#research" class="btn btn-cyan">Explore Research</a>
+          <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+        </div>
+
+      </div>
+
+      <!-- ── Hero visual: signature hexameric ATPase motor ──
+           Ghost heptagonal capsid in background sets context.
+           Six-subunit ring rotates around glowing portal with DNA beam.
+           CSS-only; no canvas, no JS animation loops. -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hv-scene">
+          <div class="hv-bg"></div>
+          <div class="hv-capsid-shell"></div>
+          <div class="hv-motor-wrap">
+            <div class="hv-arcs"></div>
+            <div class="hv-dots">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+            <div class="hv-portal-ring"></div>
+            <div class="hv-dna-line"></div>
+          </div>
+          <div class="hv-badge">ATPase Motor &nbsp;&middot;&nbsp; Cryo-EM &nbsp;&middot;&nbsp; DNA Packaging</div>
+        </div>
       </div>
 
     </div>
