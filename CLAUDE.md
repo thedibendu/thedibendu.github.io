@@ -57,7 +57,7 @@ In `research-pages.css`: `spin-slow` · `dna-float` · `cloud-pulse` · `thread-
 
 ### Page Structure (top to bottom)
 
-`#hero` → `#about` → `#research` (bg-dark) → `#skills` → `#cv` (bg-surface) → `#contact` (bg-dark) → `footer`
+`#hero` → `#about` → `#research` (bg-dark) → `#skills` → `#contact` (bg-dark) → `footer`
 
 ### Hero Section
 
