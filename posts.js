@@ -82,7 +82,7 @@ const POSTS = [
     category: "trip",
     title: "Turkey Run Hike",
     caption: "went for hiking after 15 miles kayaking",
-    images: ["images/posts/p5.heic"],
+    images: ["images/posts/t1.jpeg","images/posts/t2.jpeg","images/posts/t3.jpeg","images/posts/t4.jpeg","images/posts/t5.jpeg"],
     tags: ["life"]
   }
 
