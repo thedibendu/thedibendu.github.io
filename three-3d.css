@@ -1,0 +1,227 @@
+/* ═══════════════════════════════════════════════════════════════
+   three-3d.css — Immersive 3D theme layer for index.html
+   Loaded AFTER style.css. Activated by <body class="mode-3d">.
+   Turns the page dark, layers a fixed WebGL canvas behind all
+   content, and floats each section as a translucent glass panel
+   so the 3D molecular-motor scene shows through around them.
+═══════════════════════════════════════════════════════════════ */
+
+/* ── Fixed WebGL scene behind everything ── */
+#bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+body.mode-3d {
+  background: #030912;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* All real content sits above the canvas */
+body.mode-3d #navbar,
+body.mode-3d section,
+body.mode-3d footer,
+body.mode-3d #back-top { position: relative; z-index: 2; }
+
+/* Fallback: if WebGL fails, restore the old gradient hero */
+body.no-webgl #bg-canvas { display: none; }
+
+/* ═══════════════════════════════════════
+   HERO — transparent so the scene is the visual
+═══════════════════════════════════════ */
+body.mode-3d #hero {
+  background: transparent;
+  animation: none;
+}
+/* Soft vignette keeps hero text legible over the busy scene */
+body.mode-3d #hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 80% at 28% 48%,
+    rgba(3, 9, 18, 0.82) 0%,
+    rgba(3, 9, 18, 0.45) 45%,
+    transparent 75%);
+}
+body.mode-3d .hero-inner { grid-template-columns: 1fr; }
+body.mode-3d .hero-content { z-index: 2; }
+
+/* Hide the old CSS-only 3D decorations — the real scene replaces them */
+body.mode-3d .hero-grid,
+body.mode-3d .hero-shape,
+body.mode-3d .hero-visual,
+body.mode-3d .mol-scene,
+body.mode-3d .section-3d-band { display: none; }
+
+/* ═══════════════════════════════════════
+   SECTIONS → floating glass panels
+   Section itself is transparent; its .container becomes a
+   frosted slab, so the 3D shows in the margins & between sections.
+═══════════════════════════════════════ */
+body.mode-3d section { background: transparent; }
+body.mode-3d .bg-dark { background: transparent; }
+
+body.mode-3d #about   .container,
+body.mode-3d #skills  .container,
+body.mode-3d #research .container,
+body.mode-3d #contact .container {
+  background: rgba(5, 12, 22, 0.52);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 182, 212, 0.16);
+  border-radius: 26px;
+  padding: clamp(30px, 4.5vw, 64px);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* ═══════════════════════════════════════
+   Light sections (About / Skills) → light text on glass
+═══════════════════════════════════════ */
+body.mode-3d #about .section-heading,
+body.mode-3d #skills .section-heading {
+  color: #ffffff;
+  text-shadow: 0 0 40px rgba(6, 182, 212, 0.2);
+}
+body.mode-3d #about .about-text p { color: rgba(255, 255, 255, 0.74); }
+body.mode-3d #about .eyebrow,
+body.mode-3d #skills .eyebrow { color: var(--cyan-bright); }
+body.mode-3d #skills .skill-group-label { color: rgba(255, 255, 255, 0.55); }
+
+/* Photo orbit rings look great over the scene — keep, brighten slightly */
+body.mode-3d .avatar-orbit-ring:nth-child(1) { border-color: rgba(34, 211, 238, 0.4); }
+body.mode-3d .avatar-orbit-ring:nth-child(2) { border-color: rgba(34, 211, 238, 0.28); }
+
+/* ═══════════════════════════════════════
+   Footer over the scene
+═══════════════════════════════════════ */
+body.mode-3d footer {
+  background: rgba(3, 9, 18, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ═══════════════════════════════════════
+   Mobile — thinner panels, scene stays
+═══════════════════════════════════════ */
+@media (max-width: 720px) {
+  body.mode-3d #about  .container,
+  body.mode-3d #skills .container,
+  body.mode-3d #research .container,
+  body.mode-3d #contact .container {
+    border-radius: 20px;
+    padding: 28px 22px;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   OTHER PAGES — shared hooks (these selectors only exist on their
+   own page, so the whole file stays safe to load everywhere).
+═══════════════════════════════════════════════════════════════ */
+
+/* Reading-page heroes go transparent so the scene is the backdrop.
+   A soft vignette keeps the centered hero text legible. */
+body.mode-3d #publications-hero,
+body.mode-3d #blog-hero,
+body.mode-3d .research-page-hero {
+  background: transparent;
+  animation: none;
+}
+body.mode-3d #publications-hero::after,
+body.mode-3d #blog-hero::after,
+body.mode-3d .research-page-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 82% 82% at 50% 46%,
+    rgba(3, 9, 18, 0.74) 0%, rgba(3, 9, 18, 0.4) 45%, transparent 74%);
+}
+
+
+/* ═══════════════════════════════════════
+   PUBLICATIONS — already dark glass; just let the scene through.
+   Existing .publication-card / side-card float over it.
+═══════════════════════════════════════ */
+body.mode-3d #publication-work { background: transparent; }
+/* Side cards a touch more opaque so the timeline text stays crisp */
+body.mode-3d .publication-side-card {
+  background: rgba(5, 12, 22, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+
+/* ═══════════════════════════════════════
+   JOURNAL — dark glass cards float over the scene.
+═══════════════════════════════════════ */
+body.mode-3d #posts { background: transparent; }
+/* Filter pills get a hair more backing for legibility over the scene */
+body.mode-3d .filter-btn { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+
+
+/* ═══════════════════════════════════════
+   RESEARCH — the hard one. Many white sections with dark text.
+   Flip sections transparent, cards → dark glass, text → light.
+═══════════════════════════════════════ */
+
+/* Topic-nav strip → translucent bar */
+body.mode-3d .topic-nav {
+  background: rgba(4, 10, 20, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Overview reading block → glass panel so long copy stays readable */
+body.mode-3d #overview .container {
+  background: rgba(5, 12, 22, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(6, 182, 212, 0.16);
+  border-radius: 26px;
+  padding: clamp(30px, 4vw, 56px);
+  margin-top: 40px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+body.mode-3d .research-intro { padding: 0 !important; }
+
+/* Light card surfaces → dark glass */
+body.mode-3d .research-point,
+body.mode-3d .research-focus-item,
+body.mode-3d .research-stat-card,
+body.mode-3d .research-next-grid {
+  background: rgba(6, 14, 26, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-color: rgba(6, 182, 212, 0.18);
+}
+
+/* Dark-text → light-text */
+body.mode-3d .research-copy h2,
+body.mode-3d .research-feature h2,
+body.mode-3d .research-next h2,
+body.mode-3d .research-point h3 { color: #ffffff; }
+
+body.mode-3d .research-copy p,
+body.mode-3d .research-feature p,
+body.mode-3d .research-point p,
+body.mode-3d .research-next p,
+body.mode-3d .research-focus-text,
+body.mode-3d .research-stat-card span { color: rgba(255, 255, 255, 0.74); }
+
+/* Small section labels → cyan for contrast on the dark scene */
+body.mode-3d .research-focus .research-focus-heading { color: var(--cyan-bright); }
+
+/* Code showcase: section transparent, its dark window stays as-is */
+body.mode-3d .code-showcase { background: transparent; }
+body.mode-3d .code-window { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }

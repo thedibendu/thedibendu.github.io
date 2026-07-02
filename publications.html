@@ -25,9 +25,23 @@
 
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="publications.css">
+  <link rel="stylesheet" href="three-3d.css">
+
+  <!-- Three.js (ES modules via CDN — no build step) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 
-<body>
+<body class="mode-3d" data-scene="calm" data-world="network">
+
+  <!-- Fixed WebGL scene — calm ambient molecular-motor backdrop -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <nav id="navbar">
     <div class="nav-inner">
@@ -229,6 +243,9 @@
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
   })();
   </script>
+
+  <!-- 3D immersive background scene -->
+  <script type="module" src="three-scene.js"></script>
 
 </body>
 </html>

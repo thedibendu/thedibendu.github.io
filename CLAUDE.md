@@ -7,10 +7,10 @@ No build step, no framework. GitHub Pages deployment (push to main = live).
 
 ## ── SECTION 0 · PROJECT RULES ──────────────────────────────────────────
 
-- **No floating dots, star particles, or canvas animations** on any page (user explicitly rejected)
+- **3D SITE-WIDE:** every page is an immersive WebGL experience — a fixed Three.js canvas (`three-scene.js`) renders a 3D molecular-motor scene behind glass-panel content. The homepage uses the full "camera flies on scroll" mode; the reading pages (research / publications / journal) use a **calm** ambient mode via `<body data-scene="calm">`. This intentionally overrides the old "no canvas" rule. See Section 8.
 - **No hard-coded content in HTML** for publications or research — always edit the `.js` data files
-- **No Codex for canvas/animation JS** — too slow; do those directly in Claude
-- Use **CSS keyframe animations** for all motion (no JS-driven animation loops)
+- **Three.js / canvas / animation JS — do directly in Claude** (not Codex; too slow)
+- Use **CSS keyframe animations** for motion on non-3D pages
 - All pages share `style.css`; page-specific styles go in their own `.css` file
 
 ---
@@ -241,3 +241,63 @@ When adding a new page, copy this block and update `og:url` and `og:title`.
 - Publications sidebar snapshot numbers are currently hand-edited — should auto-calculate from `publications.js`
 - Research cards on main page are still hard-coded in `index.html` — could be driven by `research.js`
 - No search or filter on the journal or publications pages yet
+
+---
+
+## ── SECTION 8 · 3D WEBGL SYSTEM (all pages) ────────────────────────────
+
+Every page is an immersive 3D experience sharing one engine + theme:
+
+| File | Role |
+|---|---|
+| `three-scene.js` | The whole 3D engine (ES module), shared by all pages |
+| `three-3d.css` | Dark immersive theme + canvas layering + glass panels (all pages) |
+| each `*.html` | `<body class="mode-3d">`, `<canvas id="bg-canvas">`, importmap + module script |
+
+### Per-page WORLD (`data-world`) — each page has its OWN 3D scene
+
+Chosen by `<body data-world="...">`; each is a separate builder function in `three-scene.js`:
+
+| `data-world` | Page | Scene |
+|---|---|---|
+| `motor` | index | Hexameric ATPase motor ring + DNA double-helix + nested capsid + dust |
+| `structure` | research | Icosahedral capsid lattice (wireframe + glowing vertices) + inner core. **Accent colour tints to the `?topic=`** (cryo-em→violet, model-building/computational→emerald, else cyan) |
+| `network` | publications | Knowledge-graph constellation — glowing nodes (some violet hubs) linked by proximity edges |
+| `field` | journal | Soft warm bokeh — two-tone (amber + cyan) additive particle field + floating glow orbs |
+
+To add a world: write a `buildXWorld()` that adds meshes to `scene` and returns an `update(now, spin)` fn, then register it in the `WORLDS` map. Default is `motor`.
+
+### Per-page intensity (`data-scene`)
+
+- `index.html` — no `data-scene` (defaults to **full**): camera flies/orbits/dollies on scroll.
+- `research.html`, `publications.html`, `blog.html` — `<body data-scene="calm">`: camera holds a gentle framing and only drifts, so reading isn't disrupted. The branch is in `three-scene.js` `animate()` (`CALM` const).
+
+### Per-page glass treatment (in `three-3d.css`)
+
+Selectors are page-unique, so the one shared file is safe to load everywhere:
+- **index**: `#about`/`#skills`/`#research`/`#contact` containers → glass; light sections flipped to light text.
+- **publications / journal**: already dark — sections made transparent so existing glass cards float over the scene.
+- **research**: the hard case — white sections (`.research-body`, `.research-feature-band`, `.research-focus`, `.research-next`) made transparent, cards → dark glass, dark text flipped light, `#overview .container` panelled for reading. `.topic-nav` → translucent bar.
+
+### How it works
+
+- **Three.js via CDN importmap** (`three@0.160.0`) — no build step, GitHub Pages friendly. Imports `EffectComposer` / `RenderPass` / `UnrealBloomPass` from `three/addons/` for the neon bloom glow.
+- **Scene objects**: built per world (see the world table above) by `buildMotorWorld` / `buildStructureWorld` / `buildNetworkWorld` / `buildFieldWorld`. Materials are PBR + ACES tone mapping (lit, not self-glowing); only bright emissive cores bloom.
+- **Scroll-driven camera**: `scroll` (0–1) is damped (`* 0.07`) for momentum, then maps to an orbit angle + dolly radius + rise/fall height. Mouse adds subtle parallax. See the `animate()` loop.
+- **Layering**: `#bg-canvas` is `position:fixed; z-index:0`. Content sections get `z-index:2` and transparent backgrounds; each `.container` becomes a frosted glass slab so the scene shows through the margins.
+- **Graceful fallback**: if WebGL init throws, `body.no-webgl` hides the canvas and the normal dark theme remains.
+
+### Tuning knobs
+
+- Bloom: `new UnrealBloomPass(..., strength, radius, threshold)` — currently `0.9, 0.6, 0.15`.
+- Camera path: `angle` / `radius` / `height` formulas in `animate()`.
+- Colors reuse the CSS tokens as hex consts at the top: `CYAN`, `BRIGHT`, `WHITE`, `BG`.
+- Rotation speeds: the `motorGroup` / `dnaGroup` / `capsid` / `particles` `.rotation` increments.
+
+### Adding the system to a NEW page
+
+1. In `<head>`: link `three-3d.css` (after the page's own CSS) + add the three.js importmap.
+2. `<body class="mode-3d" data-scene="calm">` (use `calm` for reading pages; omit `data-scene` for a full-flight landing page).
+3. First element in `<body>`: `<canvas id="bg-canvas" aria-hidden="true"></canvas>`.
+4. Before `</body>`: `<script type="module" src="three-scene.js"></script>`.
+5. If the page has white/light sections, add glass + light-text overrides in `three-3d.css` (see the research block as the template).
