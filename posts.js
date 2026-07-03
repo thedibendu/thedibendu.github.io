@@ -61,7 +61,7 @@ const POSTS = [
     date: "2026-06-17",
     category: "life",
     title: "It's Me",
-    caption: "isn't that looks cool, The pose is inspired from someone I really ❤️",
+    caption: "Doesn't that look cool? The pose is inspired by someone I really ❤️",
     images: ["images/posts/p2.jpg"],
     tags: ["life"]
   },
@@ -81,7 +81,7 @@ const POSTS = [
     date: "2026-06-20",
     category: "trip",
     title: "Turkey Run Hike",
-    caption: "went for hiking after 15 miles kayaking",
+    caption: "went hiking after 15 miles of kayaking",
     images: ["images/posts/t1.jpeg","images/posts/t2.jpeg","images/posts/t3.jpeg","images/posts/t4.jpeg","images/posts/t5.jpeg"],
     tags: ["life"]
   }

@@ -42,7 +42,7 @@
   width: min(1280px, 100%);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.75fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(36px, 6vw, 92px);
   align-items: center;
 }

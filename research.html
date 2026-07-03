@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="research-pages.css">
+  <link rel="stylesheet" href="research-pages.css?v=20260703">
   <link rel="stylesheet" href="three-3d.css">
 
   <!-- Three.js (ES modules via CDN — no build step) -->
@@ -128,38 +128,6 @@
 
     document.getElementById('page-title').textContent = topic.title + ' — Dibendu Singh';
     document.getElementById('page-desc').setAttribute('content', topic.lede);
-
-    // Decorative visual panel — each type uses its own rich set of CSS elements
-    function buildVisual(type, chips) {
-      chips = chips || ['', '', ''];
-      var inner = '';
-      if (type === 'translocase') {
-        inner = '<div class="dna-ribbon"></div><div class="motor-ring"></div><div class="dna-track"></div>';
-      } else if (type === 'motor') {
-        inner = '<div class="motor-cycle"><span></span><span></span><span></span><span></span></div><div class="motor-ring"></div>';
-      } else if (type === 'capsid') {
-        inner = '<div class="capsid-shell"></div><div class="motor-ring compact"></div><div class="genome-thread"></div>';
-      } else if (type === 'microscope') {
-        inner = '<div class="microscope-column"></div><div class="particle-field"></div><div class="density-cloud small"></div>';
-      } else if (type === 'model') {
-        inner = '<div class="density-cloud"></div><div class="model-chain"></div><div class="fit-frame"></div>';
-      } else if (type === 'workflow') {
-        inner =
-          '<div class="code-panel">' +
-            '<span><b>load</b> particles.star</span>' +
-            '<span><b>classify</b> conformations</span>' +
-            '<span><b>refine</b> map.mrc</span>' +
-            '<span><b>validate</b> model.pdb</span>' +
-          '</div>';
-      } else {
-        inner = '<div class="density-cloud"></div>';
-      }
-      inner +=
-        '<span class="visual-chip chip-a">' + escapeHTML(chips[0]) + '</span>' +
-        '<span class="visual-chip chip-b">' + escapeHTML(chips[1]) + '</span>' +
-        '<span class="visual-chip chip-c">' + escapeHTML(chips[2]) + '</span>';
-      return '<div class="visual-stage">' + inner + '</div>';
-    }
 
     // Horizontal topic navigation strip
     function buildTopicNav(all, currentId) {
@@ -275,9 +243,6 @@
               '<a href="index.html#research" class="btn btn-ghost">Back to Research</a>' +
             '</div>' +
           '</div>' +
-          '<div class="research-visual" aria-hidden="true">' +
-            buildVisual(topic.visual, topic.chips) +
-          '</div>' +
         '</div>' +
       '</section>' +
 
@@ -378,7 +343,7 @@
   </script>
 
   <!-- 3D immersive background scene -->
-  <script type="module" src="three-scene.js"></script>
+  <script type="module" src="three-scene.js?v=20260703"></script>
 
 </body>
 </html>
