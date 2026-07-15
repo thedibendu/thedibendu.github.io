@@ -23,10 +23,21 @@ body.mode-3d {
 }
 
 /* All real content sits above the canvas */
-body.mode-3d #navbar,
 body.mode-3d section,
-body.mode-3d footer,
-body.mode-3d #back-top { position: relative; z-index: 2; }
+body.mode-3d footer { position: relative; z-index: 2; }
+
+body.mode-3d #navbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 300;
+}
+
+body.mode-3d #back-top {
+  position: fixed;
+  z-index: 320;
+}
 
 /* Fallback: if WebGL fails, restore the old gradient hero */
 body.no-webgl #bg-canvas { display: none; }
