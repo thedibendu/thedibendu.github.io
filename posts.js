@@ -84,6 +84,14 @@ const POSTS = [
     caption: "went hiking after 15 miles of kayaking",
     images: ["images/posts/t1.jpeg","images/posts/t2.jpeg","images/posts/t3.jpeg","images/posts/t4.jpeg","images/posts/t5.jpeg"],
     tags: ["life"]
-  }
-
+  },
+  {
+    id: 6,
+    date: "2026-07-15",
+    category: "life",
+    title: "It's Me",
+    caption: "Ted's Presentation Day",
+    images: ["images/posts/me1.JPG","images/posts/ted's presentation.jpeg","images/posts/me2.jpg"],
+    tags: ["life"]
+  },
 ];
