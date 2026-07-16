@@ -1,2 +1,4 @@
 # Files excluded from git — will not be pushed to GitHub
 # cv_claude.pdf
+.DS_Store
+_site/
