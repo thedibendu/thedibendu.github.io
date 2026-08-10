@@ -66,16 +66,6 @@ const POSTS = [
     tags: ["life"]
   },
 
-  {
-    id: 3,
-    date: "2026-06-18",
-    category: "life",
-    title: "It's Me",
-    caption: "last saturday",
-    images: ["images/posts/p4.jpg"],
-    tags: ["life"]
-  },
-
    {
     id: 5,
     date: "2026-06-20",
