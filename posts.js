@@ -84,4 +84,14 @@ const POSTS = [
     images: ["images/posts/me1.JPG","images/posts/ted's presentation.jpeg","images/posts/me2.jpg"],
     tags: ["life"]
   },
+
+   {
+    id: 5,
+    date: "2026-08-15",
+    category: "life",
+    title: "the prelims on Nov 17",
+    caption: "excited to defend myself",
+    images: ["images/posts/prelims.jpeg"],
+    tags: ["life"]
+  },
 ];
